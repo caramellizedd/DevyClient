@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "devyclient",
+  "version": "${version}",
+  "name": "DevyClient",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/Caramellized/DevyClient"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/devyclient/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "owo.aydendevy.devyclient.client.DevyMainClient"
+    ],
+    "main": [
+      "owo.aydendevy.devyclient.DevyClient"
+    ]
+  },
+  "mixins": [
+    "devyclient.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
