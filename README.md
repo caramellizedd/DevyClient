@@ -4,7 +4,7 @@
 > <br><br>Everything else is the same along with the GPL-3.0 License
 #### Welcome to the DevyClient Public Repository!
 - You may use this client as a base but YOU MUST credit me for it
-- If you use this client or any of my code YOU MUST make your SOURCE CODE PUBLIC, no exceptions
+- If you use this client as a base or use <strong>a significant chunk</strong> of my code YOU MUST make your SOURCE CODE PUBLIC, no exceptions
 - For any issues you may have found, you are allowed to push/send fixes or create an issue for it
 #### If you disagree with any of the above rules, i will either close-source the project or just outright abandon this project.
 ## Building/Compiling
