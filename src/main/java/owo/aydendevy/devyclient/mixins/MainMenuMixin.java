@@ -31,6 +31,7 @@ public class MainMenuMixin extends Screen {
     boolean splashLoaded = true;
     @Inject(method = "init", at = @At("HEAD"))
     private void TitleWatermark(CallbackInfo ci){
+        DevyMainClient.instance.getDiscordRPC().update("In Main Menu", "");
         if(DevyMainClient.instance.settings.modifySplashText){
             splashText = new SplashTextRenderer("Welcome " + this.client.getSession().getUsername());
             splashLoaded = false;

@@ -35,14 +35,15 @@ public abstract class HUDDraggable extends HUD implements IRenderer {
     }
     private ScreenPosition loadPosFromJson() {
         ScreenPosition loadedPos = (ScreenPosition) HUDInstances.cfg.loadSavedValue2(this.getClass().getSimpleName() + "_pos");
-        DevyMainClient.logger.info(String.valueOf(loadedPos.getAbsoluteX()));
-        DevyMainClient.logger.info(String.valueOf(loadedPos.getAbsoluteY()));
         if(loadedPos == null)
         {
             DevyMainClient.logger.error("The specific HUD (" + this.getClass().getSimpleName() + ") Position cannot be found!");
             loadedPos = ScreenPosition.fromRelativePosition(0.5, 0.5);
             this.pos = loadedPos;
             savePosToJson();
+        }else{
+            DevyMainClient.logger.info(String.valueOf(loadedPos.getAbsoluteX()));
+            DevyMainClient.logger.info(String.valueOf(loadedPos.getAbsoluteY()));
         }
         return loadedPos;
     }

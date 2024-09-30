@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
+import net.minecraft.util.WorldSavePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import owo.aydendevy.devyclient.DevyClient;
@@ -31,8 +32,8 @@ public class DevyMainClient implements ClientModInitializer {
         logger.info("Initializing Client...");
         instance = this;
         logger.info("Initializing Disocrd RPC...");
-        DiscordEvent.start();
-        getDiscordRPC().update("DevyClient Revised - Testing Phase","Main Menu");
+        getDiscordRPC().start();
+        //getDiscordRPC().update("Loading Client", "Running v0.1");
         logger.info("Discord RPC has been Initialized!");
 
         logger.info("Initializing Settings...");
@@ -42,7 +43,27 @@ public class DevyMainClient implements ClientModInitializer {
 
         logger.info("Main Client has been initialized!");
     }
+
     public DiscordRPC getDiscordRPC(){
         return DiscordEvent;
     }
+
+    public void tick() {
+        if(MinecraftClient.getInstance().currentScreen != null){
+            DevyMainClient.instance.getDiscordRPC().update("In " + MinecraftClient.getInstance().currentScreen.getTitle().getString(), "");
+        }
+        if(MinecraftClient.getInstance().world !=null && !MinecraftClient.getInstance().isPaused()){
+            if(MinecraftClient.getInstance().isInSingleplayer())
+                DevyMainClient.instance.getDiscordRPC().update("In Singleplayer", MinecraftClient.getInstance().getServer().getSavePath(WorldSavePath.ROOT).getParent().getFileName().toString());
+        }
+    }
+    /**
+     * Debug Settings
+     * These settings are for debugging purposes only
+     * This settings WILL reset after reset so set the values here to make it consistent
+     * This settings can be changed in-game using the Debug Hotkey
+     *
+     * NOTE: Please set ALL OF THESE to FALSE before publishing
+     */
+    public boolean alwaysShowGUIName = false;
 }

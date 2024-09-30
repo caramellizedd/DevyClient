@@ -1,6 +1,7 @@
 package owo.aydendevy.devyclient.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.ScreenRect;
@@ -8,8 +9,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tab.GridScreenTab;
 import net.minecraft.client.gui.tab.TabManager;
 import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.input.KeyCodes;
 import net.minecraft.data.Main;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import owo.aydendevy.devyclient.HUD.IRenderer;
 import owo.aydendevy.devyclient.HUD.Loader.HUD;
 import owo.aydendevy.devyclient.HUD.Loader.HUDManager;
@@ -66,6 +69,23 @@ public class SettingsScreen extends Screen {
         context.drawTexture(Screen.FOOTER_SEPARATOR_TEXTURE, 0, this.height - this.layout.getFooterHeight() - 2, 0.0f, 0.0f, this.width, 2, 32, 2);
         RenderSystem.disableBlend();
     }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        /**
+         * Debug Keybinds
+         * You may remove them or keep them as an Easter Egg
+         *
+         * NOTE: If you're keeping them as Easter Egg, please mark them. Thank you :3
+         */
+        if(modifiers == 1 && keyCode == 68){ // Easter Egg
+            DevyMainClient.instance.alwaysShowGUIName = DevyMainClient.instance.alwaysShowGUIName ? false : true;
+            MinecraftClient.getInstance().updateWindowTitle();
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
     @Override
     protected void renderDarkening(DrawContext context) {
         context.drawTexture(TAB_HEADER_BACKGROUND_TEXTURE, 0, 0, 0.0f, 0.0f, this.width, this.layout.getHeaderHeight(), 16, 16);

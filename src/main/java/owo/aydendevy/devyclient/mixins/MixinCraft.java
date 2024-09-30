@@ -16,6 +16,8 @@ import owo.aydendevy.devyclient.HUD.Loader.HUDInstances;
 import owo.aydendevy.devyclient.HUD.Loader.HUDManager;
 import owo.aydendevy.devyclient.client.DevyMainClient;
 
+import javax.security.auth.callback.Callback;
+
 @Mixin(MinecraftClient.class)
 public class MixinCraft {
     /**
@@ -46,6 +48,7 @@ public class MixinCraft {
             }
         }
         stringBuilder.append(" | DevyClient Revised 0.1-DEV");
+        if(DevyMainClient.instance.alwaysShowGUIName) if(MinecraftClient.getInstance().currentScreen != null) stringBuilder.append(" | " + MinecraftClient.getInstance().currentScreen.getTitle().getString());
         return stringBuilder.toString();
     }
     @Inject(method = "<init>", at = @At("RETURN"))
@@ -53,6 +56,11 @@ public class MixinCraft {
         DevyMainClient.logger.info("Initializing HUD Manager...");
         HUDInstances.init(DevyMainClient.instance.hudManager = new HUDManager());
         DevyMainClient.logger.info("HUD Manager has been Initialized!");
+    }
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void earlyTick(CallbackInfo ci){
+        DevyMainClient.instance.getDiscordRPC().core.runCallbacks();
+        DevyMainClient.instance.tick();
     }
     @Inject(method = "stop", at = @At("HEAD"))
     private void MCClose(CallbackInfo ci){

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 // SSelection - S(Settings)Selection
+// I am so good at making names - Charamellized
 public class ClientSSelectionScreen extends Screen {
     private Screen parent;
     public ClientSSelectionScreen(Screen lastScreen) {
