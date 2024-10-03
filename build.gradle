@@ -13,6 +13,10 @@ base {
 
 repositories {
     maven { url "https://jitpack.io" }
+    maven {
+        name = "CottonMC"
+        url = "https://server.bbkr.space/artifactory/libs-release"
+    }
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -28,7 +32,8 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    shadow(implementation fileTree(dir: 'src/lib', include: '*.jar'))
+    modImplementation fileTree(dir: 'src/lib', include: 'LibGui.jar')
+    //shadow(implementation fileTree(dir: 'src/lib', include: '*.jar'))
     shadow(implementation 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
 }
 
