@@ -1,5 +1,7 @@
 package owo.aydendevy.devyclient.DiscordRPC;
 
+import owo.aydendevy.devyclient.client.DevyMainClient;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -10,6 +12,7 @@ import java.util.zip.ZipInputStream;
 
 public class DownloadNativeLibrary {
     public static File downloadDiscordLibrary() throws IOException {
+        DevyMainClient.logger.info("Downloading GameSDK Library...");
         // Find out which name Discord's library has (.dll for Windows, .so for Linux)
         String name = "discord_game_sdk";
         String suffix;
@@ -70,7 +73,7 @@ public class DownloadNativeLibrary {
 
                 // We are done, so close the input stream
                 zin.close();
-
+                DevyMainClient.logger.info("Downloaded Successfully!");
                 // Return our temporary file
                 return temp;
             }
@@ -78,6 +81,7 @@ public class DownloadNativeLibrary {
             zin.closeEntry();
         }
         zin.close();
+        DevyMainClient.logger.error("Unable to download GameSDK!");
         // We couldn't find the library inside the ZIP
         return null;
     }
