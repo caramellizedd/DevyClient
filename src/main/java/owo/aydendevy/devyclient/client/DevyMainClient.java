@@ -32,7 +32,6 @@ public class DevyMainClient implements ClientModInitializer {
         logger.info("Initializing Client...");
         instance = this;
         logger.info("Initializing Disocrd RPC...");
-        getDiscordRPC().start();
         //getDiscordRPC().update("Loading Client", "Running v0.1");
         logger.info("Discord RPC has been Initialized!");
 

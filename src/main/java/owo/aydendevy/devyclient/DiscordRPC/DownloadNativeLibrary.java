@@ -1,5 +1,6 @@
 package owo.aydendevy.devyclient.DiscordRPC;
 
+import net.minecraft.client.MinecraftClient;
 import owo.aydendevy.devyclient.client.DevyMainClient;
 
 import java.io.File;
@@ -46,42 +47,60 @@ public class DownloadNativeLibrary {
 
         // Path of Discord's library inside the ZIP
         String zipPath = "lib/"+arch+"/"+name+suffix;
-
+        File tempDir = new File(MinecraftClient.getInstance().runDirectory.getPath() + "/DevyClient-lib/", "java-"+name);
+        File temp = new File(tempDir, name+suffix);
         // Open the URL as a ZipInputStream
         URL downloadUrl = new URL("https://dl-game-sdk.discordapp.net/2.5.6/discord_game_sdk.zip");
-        ZipInputStream zin = new ZipInputStream(downloadUrl.openStream());
+        ZipInputStream zin;
+        if(!tempDir.exists()){
+            zin = new ZipInputStream(downloadUrl.openStream());
+            ZipEntry entry;
+            while((entry = zin.getNextEntry())!=null)
+            {
+                if(entry.getName().equals(zipPath))
+                {
+                    // Create a new temporary directory
+                    // We need to do this, because we may not change the filename on Windows
+
+                    DevyMainClient.logger.info("Checking: " + tempDir.getPath());
+                    if(!tempDir.exists()){
+                        tempDir.mkdirs();
+                    }
+
+                    //tempDir.deleteOnExit();
+
+                    // Create a temporary file inside our directory (with a "normal" name)
+
+                    DevyMainClient.logger.info("Checking: " + temp.getPath());
+                    //temp.deleteOnExit();
+                    if(temp.exists()) {
+                        zin.close();
+                        DevyMainClient.logger.info("Library is already downloaded!");
+                        return temp;
+                    }
+
+                    // Copy the file in the ZIP to our temporary file
+                    Files.copy(zin, temp.toPath());
+
+                    // We are done, so close the input stream
+                    zin.close();
+                    DevyMainClient.logger.info("Downloaded Successfully!");
+                    // Return our temporary file
+                    return temp;
+                }
+                // next entry
+                zin.closeEntry();
+            }
+        }else{
+            DevyMainClient.logger.info("Library is already downloaded!");
+            return temp;
+        }
+
+        DevyMainClient.logger.info(zipPath);
 
         // Search for the right file inside the ZIP
-        ZipEntry entry;
-        while((entry = zin.getNextEntry())!=null)
-        {
-            if(entry.getName().equals(zipPath))
-            {
-                // Create a new temporary directory
-                // We need to do this, because we may not change the filename on Windows
-                File tempDir = new File(System.getProperty("java.io.tmpdir"), "java-"+name+System.nanoTime());
-                if(!tempDir.mkdir())
-                    throw new IOException("Cannot create temporary directory");
-                tempDir.deleteOnExit();
-
-                // Create a temporary file inside our directory (with a "normal" name)
-                File temp = new File(tempDir, name+suffix);
-                temp.deleteOnExit();
-
-                // Copy the file in the ZIP to our temporary file
-                Files.copy(zin, temp.toPath());
-
-                // We are done, so close the input stream
-                zin.close();
-                DevyMainClient.logger.info("Downloaded Successfully!");
-                // Return our temporary file
-                return temp;
-            }
-            // next entry
-            zin.closeEntry();
-        }
         DevyMainClient.logger.error("Unable to download GameSDK!");
-        zin.close();
+        //zin.close();
         // We couldn't find the library inside the ZIP
         return null;
     }

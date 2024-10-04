@@ -56,11 +56,20 @@ public class MixinCraft {
         DevyMainClient.logger.info("Initializing HUD Manager...");
         HUDInstances.init(DevyMainClient.instance.hudManager = new HUDManager());
         DevyMainClient.logger.info("HUD Manager has been Initialized!");
+
+    }
+    boolean discordInitialized =false;
+    @Inject(method = "onFinishedLoading", at = @At("HEAD"))
+    private void loadFinish(CallbackInfo ci){
+        DevyMainClient.instance.getDiscordRPC().start();
+        discordInitialized = true;
     }
     @Inject(method = "tick", at = @At("HEAD"))
     private void earlyTick(CallbackInfo ci){
-        DevyMainClient.instance.getDiscordRPC().core.runCallbacks();
-        DevyMainClient.instance.tick();
+        if(discordInitialized) {
+            DevyMainClient.instance.getDiscordRPC().core.runCallbacks();
+            DevyMainClient.instance.tick();
+        }
     }
     @Inject(method = "stop", at = @At("HEAD"))
     private void MCClose(CallbackInfo ci){

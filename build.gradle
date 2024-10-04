@@ -32,7 +32,7 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation fileTree(dir: 'src/lib', include: 'LibGui.jar')
+    modImplementation include("io.github.cottonmc:LibGui:11.0.0+1.21")
     //shadow(implementation fileTree(dir: 'src/lib', include: '*.jar'))
     shadow(implementation 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5')
 }
