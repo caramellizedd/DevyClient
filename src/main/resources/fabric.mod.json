@@ -13,10 +13,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "owo.aydendevy.devyclient.client.DevyMainClient"
+      "owo.caramell.devyclient.client.DevyMainClient"
     ],
     "main": [
-      "owo.aydendevy.devyclient.DevyClient"
+      "owo.caramell.devyclient.DevyClient"
     ]
   },
   "mixins": [
