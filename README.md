@@ -2,6 +2,7 @@
 > This project is a continuation of my last project "AND1558-Client"<br>
 > Here I rewrote the entire code to work with the newest Minecraft version along with the FabricMC modloader.
 > <br><br>Everything else is the same along with the GPL-3.0 License
+> <br>Project Development might be slow due to school!
 #### Welcome to the DevyClient Public Repository!
 - You may use this client as a base but YOU MUST credit me for it
 - If you use this client as a base or use <strong>a significant chunk</strong> of my code YOU MUST make your SOURCE CODE PUBLIC, no exceptions
