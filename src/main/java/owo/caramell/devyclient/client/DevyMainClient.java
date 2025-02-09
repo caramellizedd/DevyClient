@@ -6,10 +6,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.WorldSavePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import owo.caramell.devyclient.Configs.StatusBarColors;
 import owo.caramell.devyclient.DevyClient;
 import owo.caramell.devyclient.DiscordRPC.DiscordRPC;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
-import owo.caramell.devyclient.Settings;
+import owo.caramell.devyclient.Configs.Settings;
 
 public class DevyMainClient implements ClientModInitializer {
     public static final Logger logger = LoggerFactory.getLogger(DevyClient.class);
@@ -17,6 +18,7 @@ public class DevyMainClient implements ClientModInitializer {
     public static DevyMainClient instance;
     public HUDManager hudManager;
     public Settings settings;
+    public StatusBarColors sBarColors;
     public boolean configLoaded = false;
 
     @Override
@@ -30,7 +32,8 @@ public class DevyMainClient implements ClientModInitializer {
 
         logger.info("Initializing Settings...");
         settings = new Settings();
-        DevyMainClient.instance.settings.loadAll();
+        sBarColors = new StatusBarColors();
+        loadSettings();
         logger.info("Settings has been Initialized!");
 
         logger.info("Main Client has been initialized!");
@@ -48,6 +51,11 @@ public class DevyMainClient implements ClientModInitializer {
             if(MinecraftClient.getInstance().isInSingleplayer())
                 DevyMainClient.instance.getDiscordRPC().update("In Singleplayer", MinecraftClient.getInstance().getServer().getSavePath(WorldSavePath.ROOT).getParent().getFileName().toString());
         }
+    }
+    public void loadSettings(){
+        DevyMainClient.instance.sBarColors.fixValues();
+        DevyMainClient.instance.settings.loadAll();
+        DevyMainClient.instance.sBarColors.loadAll();
     }
     /**
      * Debug Settings

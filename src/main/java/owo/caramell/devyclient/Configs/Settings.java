@@ -1,4 +1,4 @@
-package owo.caramell.devyclient;
+package owo.caramell.devyclient.Configs;
 
 import owo.caramell.devyclient.Utils.ConfigAPI;
 import owo.caramell.devyclient.Utils.ConfigUtils;

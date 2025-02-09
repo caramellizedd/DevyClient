@@ -58,7 +58,6 @@ public class ConfigUtils {
             if(map.get(key) == null){
                 DevyMainClient.logger.error("Failed loading config name: " + key);
                 DevyMainClient.logger.error("Value not found or is using older config revision!");
-                DevyMainClient.logger.error("Inserting Default Fallback Value...");
                 try{
                     Field method = DevyMainClient.instance.settings.getClass().getDeclaredField(key);
                     if(method.getType().toString().equals("boolean")){
@@ -71,6 +70,7 @@ public class ConfigUtils {
                     DevyMainClient.logger.error(er.toString());
                 }
             }
+            DevyMainClient.logger.info("[DevyIO/JSONRead] Key have the value of: " + map.get(key));
             return map.get(key);
         }
         catch (Exception err){
@@ -92,6 +92,24 @@ public class ConfigUtils {
 
         }
         return null;
+    }
+    public boolean checkIfValueExists(String key) {
+        if(DevyMainClient.instance.settings.verboseLog)
+            DevyMainClient.logger.info("[DevyIO/JSONRead] Checking if key exist: " + key);
+        try {
+            String str = FileUtils.readFileToString(file, Charsets.UTF_8);
+            Gson json = new Gson();
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> map = json.fromJson(str, type);
+            if(map.get(key) == null){
+                DevyMainClient.logger.error("The specified key doesn't exists: " + key);
+                return false;
+            }
+            return true;
+        }
+        catch (Exception err){
+            return false;
+        }
     }
     public File getFile(){
         return file;
