@@ -30,6 +30,9 @@ public class ConfigUtils {
     public static File getConfigDir(){
         return ConfigDirectory;
     }
+    public static File getRootDir(){
+        return ROOT;
+    }
 
     public ConfigUtils(File file, Map<String, Object> jsonData) {
         this.file = file;

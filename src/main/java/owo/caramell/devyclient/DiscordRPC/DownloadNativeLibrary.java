@@ -1,5 +1,6 @@
 package owo.caramell.devyclient.DiscordRPC;
 
+import owo.caramell.devyclient.Utils.ConfigUtils;
 import owo.caramell.devyclient.client.DevyMainClient;
 
 import java.io.File;
@@ -46,10 +47,16 @@ public class DownloadNativeLibrary {
 
         // Path of Discord's library inside the ZIP
         String zipPath = "lib/"+arch+"/"+name+suffix;
+        File dir = new File(ConfigUtils.getRootDir(), "lib");
 
         // Open the URL as a ZipInputStream
         URL downloadUrl = new URL("https://dl-game-sdk.discordapp.net/2.5.6/discord_game_sdk.zip");
         ZipInputStream zin = new ZipInputStream(downloadUrl.openStream());
+        File libName = new File(dir, name+suffix);
+        if(libName.exists()){
+            DevyMainClient.logger.info("Library already downloaded!");
+            return libName;
+        }
 
         // Search for the right file inside the ZIP
         ZipEntry entry;
@@ -57,25 +64,22 @@ public class DownloadNativeLibrary {
         {
             if(entry.getName().equals(zipPath))
             {
-                // Create a new temporary directory
-                // We need to do this, because we may not change the filename on Windows
-                File tempDir = new File(System.getProperty("java.io.tmpdir"), "java-"+name+System.nanoTime());
-                if(!tempDir.mkdir())
+                if(!dir.mkdir())
                     throw new IOException("Cannot create temporary directory");
-                tempDir.deleteOnExit();
+                //dir.deleteOnExit();
 
                 // Create a temporary file inside our directory (with a "normal" name)
-                File temp = new File(tempDir, name+suffix);
-                temp.deleteOnExit();
+
+                //libName.deleteOnExit();
 
                 // Copy the file in the ZIP to our temporary file
-                Files.copy(zin, temp.toPath());
+                Files.copy(zin, libName.toPath());
 
                 // We are done, so close the input stream
                 zin.close();
                 DevyMainClient.logger.info("Downloaded Successfully!");
                 // Return our temporary file
-                return temp;
+                return libName;
             }
             // next entry
             zin.closeEntry();
