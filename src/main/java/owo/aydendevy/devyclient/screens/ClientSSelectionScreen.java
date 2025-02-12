@@ -51,14 +51,14 @@ public class ClientSSelectionScreen extends Screen {
         //this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.options"), button -> this.client.setScreen(new OptionsScreen(this, this.client.options))).dimensions(this.width / 2 - 100, 72 + 12, 98, 20).build());
     }
     @Override
-    protected void applyBlur(float delta) {
+    protected void applyBlur() {
         GlStateManager._enableScissorTest();
         if(client.getWindow().getScaleFactor() == 2){
             GlStateManager._scissorBox(20,20, width*2-40, height*2-41);
         }else if(client.getWindow().getScaleFactor() == 1){
             GlStateManager._scissorBox(10,10, width-20, height-21);
         }
-        this.client.gameRenderer.renderBlur(delta);
+        this.client.gameRenderer.renderBlur();
         this.client.getFramebuffer().beginWrite(false);
         GlStateManager._disableScissorTest();
     }
@@ -68,7 +68,7 @@ public class ClientSSelectionScreen extends Screen {
         if (this.client.world == null) {
             this.renderPanoramaBackground(context, delta);
         }
-        this.applyBlur(delta);
+        this.applyBlur();
         //context.drawText(client.textRenderer, "GUI Scale: " + client.getWindow().getScaleFactor(), 0, 0, -1, true);
         //this.renderDarkening(context);
     }

@@ -47,8 +47,7 @@ public class SettingsScreen extends Screen {
         this.initTabNavigation();
     }
 
-    @Override
-    protected void initTabNavigation() {
+    private void initTabNavigation() {
         if(tabNav == null) {
             DevyMainClient.logger.info("TAB NAVIGATION NOT FOUND");
             return;
@@ -66,7 +65,7 @@ public class SettingsScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         RenderSystem.enableBlend();
-        context.drawTexture(Screen.FOOTER_SEPARATOR_TEXTURE, 0, this.height - this.layout.getFooterHeight() - 2, 0.0f, 0.0f, this.width, 2, 32, 2);
+        //context.drawTexture(Screen.FOOTER_SEPARATOR_TEXTURE, 0, this.height - this.layout.getFooterHeight() - 2, 0.0f, 0.0f, this.width, 2, 32, 2);
         RenderSystem.disableBlend();
     }
 
@@ -88,7 +87,7 @@ public class SettingsScreen extends Screen {
 
     @Override
     protected void renderDarkening(DrawContext context) {
-        context.drawTexture(TAB_HEADER_BACKGROUND_TEXTURE, 0, 0, 0.0f, 0.0f, this.width, this.layout.getHeaderHeight(), 16, 16);
+        //context.drawTexture(TAB_HEADER_BACKGROUND_TEXTURE, 0, 0, 0.0f, 0.0f, this.width, this.layout.getHeaderHeight(), 16, 16);
         this.renderDarkening(context, 0, this.layout.getHeaderHeight(), this.width, this.height - this.layout.getFooterHeight() - tabNav.getNavigationFocus().getBottom());
         for(int i = 0; i < 2; i++)
             this.renderDarkening(context, 0, this.layout.getHeight()-this.layout.getFooterHeight(), this.width, this.layout.getFooterHeight());

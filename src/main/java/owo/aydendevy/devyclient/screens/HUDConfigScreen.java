@@ -55,7 +55,7 @@ public class HUDConfigScreen extends Screen {
     IRenderer selected = null;
 
     @Override
-    protected void applyBlur(float delta) {
+    protected void applyBlur() {
         //super.applyBlur(delta);
     }
 
