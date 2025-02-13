@@ -2,8 +2,14 @@ package owo.caramell.devyclient.client;
 
 import net.fabricmc.api.ClientModInitializer;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import net.minecraft.util.WorldSavePath;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import owo.caramell.devyclient.Configs.StatusBarColors;
@@ -21,14 +27,20 @@ public class DevyMainClient implements ClientModInitializer {
     public StatusBarColors sBarColors;
     public boolean configLoaded = false;
     public boolean discordRPCFailed = false;
+    // Controls
+    private static KeyBinding fullbright;
 
     @Override
     public void onInitializeClient() {
         logger.info("Initializing Client...");
         instance = this;
-
-        //getDiscordRPC().update("Loading Client", "Running v0.1");
-
+        // Initialize controls
+        fullbright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "owo.caramell.keyfullbright", // The translation key of the keybinding's name
+                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+                GLFW.GLFW_KEY_M, // The keycode of the key
+                "owo.caramell.controlscategory" // The translation key of the keybinding's category.
+        ));
 
         logger.info("Initializing Settings...");
         settings = new Settings();
@@ -37,6 +49,20 @@ public class DevyMainClient implements ClientModInitializer {
         logger.info("Settings has been Initialized!");
 
         logger.info("Main Client has been initialized!");
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (fullbright.wasPressed()) {
+                settings.fullbright = !settings.fullbright;
+                if(settings.fullbright) {
+                    DevyMainClient.instance.settings.lastBrightnessValue = client.options.getGamma().getValue();
+                    client.options.getGamma().setValue(99D);
+                }
+                else{
+                    client.options.getGamma().setValue(DevyMainClient.instance.settings.lastBrightnessValue);
+                }
+                settings.saveAll();
+            }
+        });
     }
 
     public DiscordRPC getDiscordRPC(){
