@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -17,6 +18,7 @@ import owo.caramell.devyclient.DevyClient;
 import owo.caramell.devyclient.DiscordRPC.DiscordRPC;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.Configs.Settings;
+import owo.caramell.devyclient.client.NotifsAPI.Notification;
 
 public class DevyMainClient implements ClientModInitializer {
     public static final Logger logger = LoggerFactory.getLogger(DevyClient.class);
@@ -27,6 +29,7 @@ public class DevyMainClient implements ClientModInitializer {
     public StatusBarColors sBarColors;
     public boolean configLoaded = false;
     public boolean discordRPCFailed = false;
+    public Notification notifAPI;
     // Controls
     private static KeyBinding fullbright;
 
@@ -47,6 +50,10 @@ public class DevyMainClient implements ClientModInitializer {
         sBarColors = new StatusBarColors();
         loadSettings();
         logger.info("Settings has been Initialized!");
+
+        logger.info("Initializing NotifsAPI...");
+        notifAPI = new Notification();
+        logger.info("NotifsAPI has been Initialized!");
 
         logger.info("Main Client has been initialized!");
 
