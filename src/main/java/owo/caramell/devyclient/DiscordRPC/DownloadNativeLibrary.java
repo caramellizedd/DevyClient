@@ -5,6 +5,7 @@ import owo.caramell.devyclient.client.DevyMainClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Locale;
@@ -50,8 +51,18 @@ public class DownloadNativeLibrary {
         File dir = new File(ConfigUtils.getRootDir(), "lib");
 
         // Open the URL as a ZipInputStream
-        URL downloadUrl = new URL("https://dl-game-sdk.discordapp.net/2.5.6/discord_game_sdk.zip");
-        ZipInputStream zin = new ZipInputStream(downloadUrl.openStream());
+        URL url = new URL("https://dl-game-sdk.discordapp.net/2.5.6/discord_game_sdk.zip");
+        HttpURLConnection downloadUrl = (HttpURLConnection) url.openConnection();
+        downloadUrl.setConnectTimeout(5000);
+        downloadUrl.setReadTimeout(5000);
+        ZipInputStream zin = null;
+        try{
+            zin = new ZipInputStream(downloadUrl.getInputStream());
+        }catch(Exception err){
+            DevyMainClient.logger.error("Failed to download Discord Game SDK");
+            err.printStackTrace();
+            return null;
+        }
         File libName = new File(dir, name+suffix);
         if(libName.exists()){
             DevyMainClient.logger.info("Library already downloaded!");

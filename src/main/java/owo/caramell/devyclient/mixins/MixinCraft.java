@@ -54,15 +54,17 @@ public class MixinCraft {
         DevyMainClient.logger.info("HUD Manager has been Initialized!");
 
     }
-    boolean discordInitialized =false;
     @Inject(method = "onFinishedLoading", at = @At("HEAD"))
     private void loadFinish(CallbackInfo ci){
-        DevyMainClient.instance.getDiscordRPC().start();
-        discordInitialized = true;
+        DevyMainClient.logger.info("Initializing Disocrd RPC...");
+        if(!DevyMainClient.instance.getDiscordRPC().start()) {
+            DevyMainClient.instance.discordRPCFailed = true;
+            DevyMainClient.logger.error("Discord RPC Failed to initialize!");
+        }
     }
     @Inject(method = "tick", at = @At("HEAD"))
     private void earlyTick(CallbackInfo ci){
-        if(discordInitialized) {
+        if(!DevyMainClient.instance.discordRPCFailed && DevyMainClient.instance.getDiscordRPC().running) {
             DevyMainClient.instance.getDiscordRPC().core.runCallbacks();
             DevyMainClient.instance.tick();
         }

@@ -3,6 +3,7 @@ package owo.caramell.devyclient.DiscordRPC;
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
+import owo.caramell.devyclient.client.DevyMainClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,20 +11,23 @@ import java.time.Instant;
 
 public class DiscordRPC {
     // Migrate to Discord Game SDK - Charamellized
-    private boolean running = true;
+    public boolean running = false;
     private long created = 0;
     public Core core;
     Activity activity;
     // Initialize the DiscordRPC Service
-    public void start(){
+    public boolean start(){
         this.created = System.currentTimeMillis();
         // Credits to JnCrMx for creating the Discord Game SDK Library and for this Example!
         try{
             File discordLibrary = DownloadNativeLibrary.downloadDiscordLibrary();
-            if(discordLibrary == null)
-            {
-                System.err.println("Error downloading Discord SDK.");
-                System.exit(-1);
+            if(discordLibrary == null){
+                DevyMainClient.logger.error("Discord SDK Library Not found.");
+                return false;
+            }
+            if(!discordLibrary.exists()) {
+                DevyMainClient.logger.error("Discord SDK Library Not found.");
+                return false;
             }
             // Initialize the Core
             Core.init(discordLibrary);
@@ -53,10 +57,11 @@ public class DiscordRPC {
                 core.activityManager().updateActivity(activity);
 
                 // Run callbacks forever
-
+                running = true;
             }
+            return true;
         }catch (IOException err){
-
+            return false;
         }
     }
 
@@ -67,6 +72,7 @@ public class DiscordRPC {
     }
     // Update the Rich Presence with a text when hovering the icon
     public void update(String first, String second, String hover){
+        if(DevyMainClient.instance.discordRPCFailed) return;
         activity.setDetails(first);
         activity.setState(second);
         activity.assets().setLargeImage("large");
@@ -75,6 +81,7 @@ public class DiscordRPC {
     }
     // Update the Rich Presence without a text when hovering the icon
     public void update(String first, String second){
+        if(DevyMainClient.instance.discordRPCFailed) return;
         activity.setDetails(first);
         activity.setState(second);
         activity.assets().setLargeImage("large");

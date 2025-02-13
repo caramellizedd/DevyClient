@@ -20,14 +20,15 @@ public class DevyMainClient implements ClientModInitializer {
     public Settings settings;
     public StatusBarColors sBarColors;
     public boolean configLoaded = false;
+    public boolean discordRPCFailed = false;
 
     @Override
     public void onInitializeClient() {
         logger.info("Initializing Client...");
         instance = this;
-        logger.info("Initializing Disocrd RPC...");
+
         //getDiscordRPC().update("Loading Client", "Running v0.1");
-        logger.info("Discord RPC has been Initialized!");
+
 
         logger.info("Initializing Settings...");
         settings = new Settings();
