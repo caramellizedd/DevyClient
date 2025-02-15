@@ -19,11 +19,11 @@ public class ConfigUtils {
     private File file;
     public Map<String, Object> jsonData;
 
-    private static File ROOT = new File("DevyClient");
-    private static File ConfigDirectory = new File(ROOT, "Configuration");
+    private static final File ROOT = new File("DevyClient");
+    private final static File ConfigDirectory = new File(ROOT, "Configuration");
 
     public static boolean init(){
-        if(!ConfigDirectory.exists()) if(ConfigDirectory.mkdirs()) return true;
+        if(!ConfigDirectory.exists()) return ConfigDirectory.mkdirs();
         return false;
     }
 
@@ -73,7 +73,8 @@ public class ConfigUtils {
                     DevyMainClient.logger.error(er.toString());
                 }
             }
-            DevyMainClient.logger.info("[DevyIO/JSONRead] Key have the value of: " + map.get(key));
+            if(DevyMainClient.instance.settings.verboseLog)
+                DevyMainClient.logger.info("[DevyIO/JSONRead] Key have the value of: " + map.get(key));
             return map.get(key);
         }
         catch (Exception err){
