@@ -1,4 +1,7 @@
 {
   "owo.caramell.keyfullbright": "Fullbright Key",
-  "owo.caramell.controlscategory": "DevyClient Controls"
+  "owo.caramell.controlscategory": "DevyClient Controls",
+  "owo.caramell.mainsettingstitle": "Main Settings",
+  "owo.caramell.healthuititle": "§7===§rHealth UI§7===",
+  "owo.caramell.alterstatusbar": "Replace Vanilla Status Bar UI with a Simpler one"
 }

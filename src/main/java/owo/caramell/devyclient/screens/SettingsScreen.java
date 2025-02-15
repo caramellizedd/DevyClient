@@ -15,8 +15,6 @@ import owo.caramell.devyclient.HUD.Loader.HUD;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.client.DevyMainClient;
 
-import static net.minecraft.client.gui.screen.world.CreateWorldScreen.TAB_HEADER_BACKGROUND_TEXTURE;
-
 public class SettingsScreen extends Screen {
     protected SettingsScreen(Screen prevScreen, HUDManager api) {
         super(Text.of("Client Advanced Settings"));
@@ -96,20 +94,24 @@ public class SettingsScreen extends Screen {
     HUDManager api;
     class MainSettings extends GridScreenTab {
         MainSettings(){
-            super(Text.of("Main Settings"));
+            super(Text.translatable("owo.caramell.mainsettingstitle"));
             GridWidget.Adder adder = this.grid.createAdder(1);
-            adder.add(new TextWidget(Text.of("§7===§rHealth UI§7==="), textRenderer), grid.copyPositioner().marginBottom(10));
-            adder.add(CheckboxWidget.builder(Text.of("Replace Vanilla Health UI with a Simpler one"), textRenderer).callback((checkbox, checked) -> {
-                DevyMainClient.instance.settings.hpLine = checked;
-            }).checked(DevyMainClient.instance.settings.hpLine).build());
+
+            adder.add(new TextWidget(Text.translatable("owo.caramell.healthuititle"), textRenderer), grid.copyPositioner().marginBottom(10));
+            adder.add(CheckboxWidget.builder(Text.translatable("owo.caramell.alterstatusbar"), textRenderer).callback((checkbox, checked) -> {
+                DevyMainClient.instance.settings.alterStatusBar = checked;
+            }).checked(DevyMainClient.instance.settings.alterStatusBar).build());
+            // TODO: Change the text with corresponding translatation key.
             adder.add(new TextWidget(Text.of("Warning: Depends on HP Display to be enabled!"), textRenderer), grid.copyPositioner().marginTop(3).marginBottom(3).marginLeft(1));
             adder.add(CheckboxWidget.builder(Text.of("Colored HP Text"), textRenderer).callback((checkbox, checked) -> {
                 DevyMainClient.instance.settings.hpColored = checked;
             }).checked(DevyMainClient.instance.settings.hpColored).build());
+
             adder.add(new TextWidget(Text.of("§7===§rVanilla UI§7==="), textRenderer), grid.copyPositioner().marginBottom(10).marginTop(10));
             adder.add(CheckboxWidget.builder(Text.of("Change splash text to \"Welcome <PlayerName>\""), textRenderer).callback((checkbox, checked) -> {
                 DevyMainClient.instance.settings.modifySplashText = checked;
             }).checked(DevyMainClient.instance.settings.modifySplashText).build());
+
             adder.add(new TextWidget(Text.of("§7===§rRendering§7==="), textRenderer), grid.copyPositioner().marginBottom(10).marginTop(10));
             adder.add(CheckboxWidget.builder(Text.of("Fullbright"), textRenderer).callback((checkbox, checked) -> {
                 DevyMainClient.instance.settings.fullbright = checked;
@@ -121,6 +123,7 @@ public class SettingsScreen extends Screen {
                     client.options.getGamma().setValue(DevyMainClient.instance.settings.lastBrightnessValue);
                 }
             }).checked(DevyMainClient.instance.settings.fullbright).build());
+
             adder.add(new TextWidget(Text.of("Warning: DO NOT CHANGE THE BRIGHTNESS IN VIDEO SETTINGS WHILE ENABLED!"), textRenderer), grid.copyPositioner().marginTop(3).marginLeft(1));
             SimplePositioningWidget.setPos(this.grid, 0, 0, width, height, 0.15f, 0.15f);
         }
