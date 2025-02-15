@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import owo.caramell.devyclient.HUD.Loader.HUDInstances;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
+import owo.caramell.devyclient.StaticStrings;
 import owo.caramell.devyclient.client.DevyMainClient;
 
 @Mixin(MinecraftClient.class)
@@ -23,7 +24,10 @@ public class MixinCraft {
     @Overwrite
     private String getWindowTitle() {
         MinecraftClient client = MinecraftClient.getInstance();
-        StringBuilder stringBuilder = new StringBuilder("Minecraft");
+        if(DevyMainClient.instance == null) return "Minecraft";
+        if(DevyMainClient.instance.notifAPI == null) return "Minecraft";
+        StringBuilder stringBuilder = new StringBuilder("(" + DevyMainClient.instance.notifAPI.notifQueue + ") Minecraft");
+        if(DevyMainClient.instance.notifAPI.notifQueue == 0) stringBuilder = new StringBuilder("Minecraft");
         if (MinecraftClient.getModStatus().isModded()) {
             stringBuilder.append("*");
         }
@@ -43,7 +47,7 @@ public class MixinCraft {
                 stringBuilder.append(I18n.translate("title.multiplayer.other", new Object[0]));
             }
         }
-        stringBuilder.append(" | DevyClient Revised 0.1-DEV");
+        stringBuilder.append(" | " + StaticStrings.version);
         if(DevyMainClient.instance.alwaysShowGUIName) if(MinecraftClient.getInstance().currentScreen != null) stringBuilder.append(" | " + MinecraftClient.getInstance().currentScreen.getTitle().getString());
         return stringBuilder.toString();
     }
@@ -68,6 +72,7 @@ public class MixinCraft {
             DevyMainClient.instance.getDiscordRPC().core.runCallbacks();
             DevyMainClient.instance.tick();
         }
+        MinecraftClient.getInstance().updateWindowTitle();
     }
     @Inject(method = "stop", at = @At("HEAD"))
     private void MCClose(CallbackInfo ci){
