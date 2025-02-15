@@ -97,4 +97,26 @@ public class IngameStatusBarUI {
     private void drawHeartBlink(DrawContext context, int x, int y, int width){
         context.drawBorder(x-1,y-1, width+2, 11, 0xFFFFFFFF);
     }
+
+    public void drawArmorBars(DrawContext context, PlayerEntity player, int i, int j, int k, int x) {
+        int l = player.getArmor();
+        if (l > 0) {
+            int m = i - (j - 1) * k - 10;
+
+            for (int n = 0; n < 10; n++) {
+                int o = x + n * 8;
+                if (n * 2 + 1 < l) {
+                    //context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, o, m, 9, 9);
+                }
+
+                if (n * 2 + 1 == l) {
+                    //context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_HALF_TEXTURE, o, m, 9, 9);
+                }
+
+                if (n * 2 + 1 > l) {
+                    //context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_EMPTY_TEXTURE, o, m, 9, 9);
+                }
+            }
+        }
+    }
 }
