@@ -11,7 +11,7 @@ public class Settings {
         instance = this;
     }
     public static Settings instance;
-    public boolean hpLine = false;
+    public boolean alterStatusBar = false;
     public boolean hpColored = false;
     public boolean modifySplashText = false;
     public boolean fullbright = false;
@@ -20,9 +20,10 @@ public class Settings {
     public void loadAll(){
         // TODO: Check if settings file exists, if not load default values
         if(config.getFile().exists()){
+            convertOldValues();
             verboseLog = false;
             verboseLog = (boolean)config.loadSavedValue("verboseLog");
-            hpLine = (boolean)config.loadSavedValue("hpLine");
+            alterStatusBar = (boolean)config.loadSavedValue("alterStatusBar");
             hpColored = (boolean)config.loadSavedValue("hpColored");
             modifySplashText = (boolean)config.loadSavedValue("modifySplashText");
             fullbright = (boolean)config.loadSavedValue("fullbright");
@@ -30,8 +31,15 @@ public class Settings {
         }
         else loadDefaultValues();
     }
+    public void convertOldValues(){
+        if(config.checkIfValueExists("hpLine")){
+            alterStatusBar = (boolean)config.loadSavedValue("hpLine");
+            config.remove("hpLine");
+            config.set("alterStatusBar", alterStatusBar);
+        }
+    }
     public void saveAll(){
-        config.set("hpLine", hpLine);
+        config.set("alterStatusBar", alterStatusBar);
         config.set("hpColored", hpColored);
         config.set("modifySplashText", modifySplashText);
         config.set("fullbright", fullbright);
@@ -47,13 +55,13 @@ public class Settings {
     }
     public ConfigUtils config = ConfigAPI.newConfiguration(new File(getJsonFolder(), "devyclient.cfg"));
     public void loadDefaultValues() {
-        hpLine = false;
+        alterStatusBar = false;
         hpColored = true;
         modifySplashText = true;
         fullbright = false;
         verboseLog = false;
         lastBrightnessValue = 0.0D;
-        config.set("hpLine", hpLine);
+        config.set("alterStatusBar", alterStatusBar);
         config.set("hpColored", hpColored);
         config.set("modifySplashText", modifySplashText);
         config.set("fullbright", fullbright);
