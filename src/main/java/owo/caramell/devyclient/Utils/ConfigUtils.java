@@ -50,6 +50,10 @@ public class ConfigUtils {
         return jsonData.get(key);
     }
 
+    public void remove(String key){
+        jsonData.remove(key);
+    }
+
     public Object loadSavedValue(String key) {
         if(DevyMainClient.instance.settings.verboseLog)
             DevyMainClient.logger.info("[DevyIO/JSONRead] Reading key: " + key);
