@@ -104,17 +104,21 @@ public class IngameStatusBarUI {
             int m = i - (j - 1) * k - 10;
 
             for (int n = 0; n < 10; n++) {
-                int o = x + n * 8;
+                int o = x + n * 2;
+                context.fill(o,m,o+2,m+9, StatusBarColors.instance.ArmorColorContainer);
                 if (n * 2 + 1 < l) {
                     //context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, o, m, 9, 9);
+                    context.fill(o,m,o+2,m+9, StatusBarColors.instance.ArmorColor);
                 }
 
                 if (n * 2 + 1 == l) {
                     //context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_HALF_TEXTURE, o, m, 9, 9);
+                    context.fill(o,m,o+1,m+9, StatusBarColors.instance.ArmorColor);
                 }
 
                 if (n * 2 + 1 > l) {
                     //context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_EMPTY_TEXTURE, o, m, 9, 9);
+
                 }
             }
         }
