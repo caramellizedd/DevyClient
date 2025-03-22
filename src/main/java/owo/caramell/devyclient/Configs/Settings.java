@@ -11,16 +11,21 @@ public class Settings {
         instance = this;
     }
     public static Settings instance;
+
+    public int notifPosType = 0;
+
     public boolean alterStatusBar = false;
     public boolean hpColored = false;
     public boolean modifySplashText = false;
     public boolean fullbright = false;
     public boolean verboseLog = false;
+
     public double lastBrightnessValue = 0.0D;
     public void loadAll(){
         // TODO: Check if settings file exists, if not load default values
         if(config.getFile().exists()){
             convertOldValues();
+            checkAllValues();
             verboseLog = false;
             verboseLog = (boolean)config.loadSavedValue("verboseLog");
             alterStatusBar = (boolean)config.loadSavedValue("alterStatusBar");
@@ -28,6 +33,7 @@ public class Settings {
             modifySplashText = (boolean)config.loadSavedValue("modifySplashText");
             fullbright = (boolean)config.loadSavedValue("fullbright");
             lastBrightnessValue = (double)config.loadSavedValue("lastBrightnessValue");
+            notifPosType = (int)config.loadSavedValue("notifPosType", true);
         }
         else loadDefaultValues();
     }
@@ -45,6 +51,7 @@ public class Settings {
         config.set("fullbright", fullbright);
         config.set("verboseLog", verboseLog);
         config.set("lastBrightnessValue", lastBrightnessValue);
+        config.set("notifPosType", notifPosType);
 
         try{
             config.save();
@@ -61,16 +68,48 @@ public class Settings {
         fullbright = false;
         verboseLog = false;
         lastBrightnessValue = 0.0D;
+        notifPosType = 0;
         config.set("alterStatusBar", alterStatusBar);
         config.set("hpColored", hpColored);
         config.set("modifySplashText", modifySplashText);
         config.set("fullbright", fullbright);
         config.set("verboseLog", verboseLog);
         config.set("lastBrightnessValue", lastBrightnessValue);
+        config.set("notifPosType", notifPosType);
         try {
             config.save();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    public void checkAllValues(){
+        if(!config.checkIfValueExists("verboseLog")) {
+            verboseLog = false;
+            config.set("verboseLog", verboseLog);
+        }
+        if(!config.checkIfValueExists("alterStatusBar")) {
+            alterStatusBar = false;
+            config.set("alterStatusBar", alterStatusBar);
+        }
+        if(!config.checkIfValueExists("hpColored")) {
+            hpColored = true;
+            config.set("hpColored", hpColored);
+        }
+        if(!config.checkIfValueExists("modifySplashText")) {
+            modifySplashText = true;
+            config.set("modifySplashText", modifySplashText);
+        }
+        if(!config.checkIfValueExists("fullbright")) {
+            fullbright = false;
+            config.set("fullbright", fullbright);
+        }
+        if(!config.checkIfValueExists("lastBrightnessValue")) {
+            lastBrightnessValue = 0.0D;
+            config.set("lastBrightnessValue", lastBrightnessValue);
+        }
+        if(!config.checkIfValueExists("notifPosType")) {
+            notifPosType = 0;
+            config.set("notifPosType", notifPosType);
         }
     }
     public static void refreshSettings(){

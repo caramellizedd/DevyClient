@@ -53,8 +53,11 @@ public class ConfigUtils {
     public void remove(String key){
         jsonData.remove(key);
     }
+    public Object loadSavedValue(String key){
+        return loadSavedValue(key, false);
+    }
 
-    public Object loadSavedValue(String key) {
+    public Object loadSavedValue(String key, boolean returnDoubleAsInt) {
         if(DevyMainClient.instance.settings.verboseLog)
             DevyMainClient.logger.info("[DevyIO/JSONRead] Reading key: " + key);
         try {
@@ -71,6 +74,8 @@ public class ConfigUtils {
                         return false;
                     }else if(method.getType().toString().equals("double")){
                         return 0.0D;
+                    }else if (method.getType().toString().equals("int")) {
+                        return 0;
                     }
                 }
                 catch (Exception er){
@@ -79,6 +84,9 @@ public class ConfigUtils {
             }
             if(DevyMainClient.instance.settings.verboseLog)
                 DevyMainClient.logger.info("[DevyIO/JSONRead] Key have the value of: " + map.get(key));
+            if(map.get(key) instanceof Double)
+                if(returnDoubleAsInt)
+                    return ((Double) map.get(key)).intValue();
             return map.get(key);
         }
         catch (Exception err){

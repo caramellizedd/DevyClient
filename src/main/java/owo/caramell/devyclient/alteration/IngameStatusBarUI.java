@@ -11,6 +11,7 @@ import owo.caramell.devyclient.client.enums.PublicEnum;
 
 public class IngameStatusBarUI {
     private final Random random = Random.create();
+    private int yHPShake = this.random.nextInt(2);
 
     /**
      * drawHealthbars Function
@@ -42,7 +43,7 @@ public class IngameStatusBarUI {
             int o = x + l * 2;
             int p = y;
             if (lastHealth + absorption <= 4) {
-                p += this.random.nextInt(2);
+                p += yHPShake;
             }
             if (l < i && l == regeneratingHeartIndex) {
                 p -= 2;

@@ -26,8 +26,7 @@ public class MixinCraft {
         MinecraftClient client = MinecraftClient.getInstance();
         if(DevyMainClient.instance == null) return "Minecraft";
         if(DevyMainClient.instance.notifAPI == null) return "Minecraft";
-        StringBuilder stringBuilder = new StringBuilder("(" + DevyMainClient.instance.notifAPI.notifQueue + ") Minecraft");
-        if(DevyMainClient.instance.notifAPI.notifQueue == 0) stringBuilder = new StringBuilder("Minecraft");
+        StringBuilder stringBuilder = new StringBuilder("Minecraft");
         if (MinecraftClient.getModStatus().isModded()) {
             stringBuilder.append("*");
         }
