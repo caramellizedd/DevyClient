@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import owo.caramell.devyclient.HUD.IRenderer;
 import owo.caramell.devyclient.HUD.ScreenPosition;
+import owo.caramell.devyclient.client.DevyMainClient;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,6 +58,7 @@ public class HUDManager {
 
     public void onRender(DrawContext drawContext) {
         if (this.mc.currentScreen == null || !this.mc.mouse.isCursorLocked() && !this.mc.inGameHud.getDebugHud().shouldShowDebugHud()) {
+            DevyMainClient.instance.notifAPI.render(drawContext);
             for (final IRenderer renderer : this.registeredRenderers) {
                 this.callRenderer(renderer, drawContext);
             }

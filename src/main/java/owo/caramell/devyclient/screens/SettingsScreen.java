@@ -74,7 +74,7 @@ public class SettingsScreen extends Screen {
             DevyMainClient.instance.alwaysShowGUIName = DevyMainClient.instance.alwaysShowGUIName ? false : true;
             MinecraftClient.getInstance().updateWindowTitle();
         }
-
+        DevyMainClient.instance.notifAPI.requestNotification("KEYCODEDBG", modifiers + "/" + keyCode);
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

@@ -9,50 +9,71 @@ import owo.caramell.devyclient.Utils.Animator.Easing;
 import owo.caramell.devyclient.client.DevyMainClient;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Random;
 
 public class Notification {
     private String notifContent = "";
     public List<notifs> notifsList = new ArrayList<>();
 
     public void render(DrawContext context){
-        for(notifs ntf : notifsList)
-            ntf.render(context);
+        try{
+            for(notifs ntf : notifsList) {
+                if(ntf == null) break;
+                ntf.render(context);
+            }
+        }
+        catch (ConcurrentModificationException ignored){
+            DevyMainClient.logger.error("ConcurrentModificationException");
+            DevyMainClient.logger.error("You may ignore this error if it didn't crash.");
+        }
     }
 
     private int getPosType(){
         return DevyMainClient.instance.settings.notifPosType;
     }
     public void requestNotification(String title, Object content){
-        notifsList.add(new notifs(title, String.valueOf(content)));
+        try{
+            notifsList.add(new notifs(title, String.valueOf(content)));
+        }catch (ConcurrentModificationException cme){
+            // try again lmao
+            requestNotification(title, content);
+        }
     }
 
     public class notifs{
         private String title;
         private String content;
         private boolean anim1 = false;
-        Animation anim = new Animation(1000l, 2, 2, Easing.EASE_IN_OUT_CIRC);
+        Animation anim = new Animation(1000l, -2001, -2000, Easing.EASE_IN_OUT_CIRC);
         Animation anim2 = null;
-        private int lastY = 0;
+        private int lastY = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32);
         notifs(String title, String content){
             this.title = title;
             this.content = content;
-            lastY = 12 * notifsList.indexOf(this);
-            anim2 = new Animation(300l, lastY, lastY, Easing.EASE_IN_OUT_CIRC);
         }
         public void render(DrawContext context){
-            int y = 12 * notifsList.indexOf(this);
-            if(lastY != y){
+            int y1 = 20 * (notifsList.indexOf(this) + 1);
+            int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32) - y1 + 18;
+            int x = 18 + (int)anim.getValue();
+            if(lastY != y && anim1){
                 anim2 = new Animation(300l, lastY, y, Easing.EASE_OUT_CIRC);
                 lastY = y;
             }
-            if(!anim1) startAnimation();
-            context.drawText(MinecraftClient.getInstance().textRenderer, "(" + title + ") " + content, (int)anim.getValue(),2 + (int)anim2.getValue(), -1, true);
+            if(!anim1) {
+                startAnimation();
+                anim2 = new Animation(300l, y+0.1F, y, Easing.EASE_OUT_CIRC);
+                lastY = y;
+            }
+            context.fill( x - 3, (int)anim2.getValue() - 3, (x + 240), (int)anim2.getValue() + MinecraftClient.getInstance().textRenderer.fontHeight + 6, 0xAA000000);
+            context.drawBorder( x - 3, (int)anim2.getValue() - 3, 243, MinecraftClient.getInstance().textRenderer.fontHeight + 9, 0xFFCCCCCC);
+            context.drawText(MinecraftClient.getInstance().textRenderer, "(" + title + ") " + content, x+3,2 + (int)anim2.getValue(), -1, true);
         }
         public void startAnimation(){
             anim1 = true;
             new Thread(() -> {
-                anim = new Animation(1000l, -200, 2, Easing.EASE_IN_OUT_CIRC);
+                anim = new Animation(500l, -500, 2, Easing.EASE_IN_OUT_CIRC);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -60,13 +81,26 @@ public class Notification {
                 }
                 anim = new Animation(500l, 2, -200, Easing.EASE_IN_OUT_CIRC);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 anim1 = false;
-                notifsList.remove(this);
+
+                tryRemoveSelf();
             }).start();
+        }
+        private void tryRemoveSelf(){
+            try{
+                notifsList.remove(this);
+            }catch (ConcurrentModificationException cme){
+                try {
+                    Thread.sleep(new Random().nextInt(20));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                tryRemoveSelf();
+            }
         }
     }
 }
