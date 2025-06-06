@@ -48,15 +48,17 @@ public class Notification {
         private boolean anim1 = false;
         Animation anim = new Animation(1000l, -2001, -2000, Easing.EASE_IN_OUT_CIRC);
         Animation anim2 = null;
+        Animation progressBar = new Animation(30l, 243, 243, Easing.LINEAR);
         private int lastY = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32);
         notifs(String title, String content){
             this.title = title;
             this.content = content;
         }
         public void render(DrawContext context){
-            int y1 = 20 * (notifsList.indexOf(this) + 1);
-            int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32) - y1 + 18;
-            int x = 18 + (int)anim.getValue();
+            int y1 = 42 * (notifsList.indexOf(this) + 1);
+            int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32) - y1 + 28;
+            int height = 30;
+            int x = 8 + (int)anim.getValue();
             if(lastY != y && anim1){
                 anim2 = new Animation(300l, lastY, y, Easing.EASE_OUT_CIRC);
                 lastY = y;
@@ -66,13 +68,16 @@ public class Notification {
                 anim2 = new Animation(300l, y+0.1F, y, Easing.EASE_OUT_CIRC);
                 lastY = y;
             }
-            context.fill( x - 3, (int)anim2.getValue() - 3, (x + 240), (int)anim2.getValue() + MinecraftClient.getInstance().textRenderer.fontHeight + 6, 0xAA000000);
-            context.drawBorder( x - 3, (int)anim2.getValue() - 3, 243, MinecraftClient.getInstance().textRenderer.fontHeight + 9, 0xFFCCCCCC);
-            context.drawText(MinecraftClient.getInstance().textRenderer, "(" + title + ") " + content, x+3,2 + (int)anim2.getValue(), -1, true);
+            context.fill( x - 3, (int)anim2.getValue() - 3, (x + 240), (int)anim2.getValue() + height + 6, 0xAA000000);
+            context.drawBorder( x - 3, (int)anim2.getValue() - 3, 243, height + 9, 0xFFCCCCCC);
+            context.drawHorizontalLine(x-3, ((int)progressBar.getValue() - 3),(((int)anim2.getValue() - 5) + height + 9),0xFF00FF00);
+            context.drawText(MinecraftClient.getInstance().textRenderer, "(" + title + ") ", x+3,2 + (int)anim2.getValue(), -1, true);
+            context.drawText(MinecraftClient.getInstance().textRenderer, content, x+3,MinecraftClient.getInstance().textRenderer.fontHeight + 6 + (int)anim2.getValue(), -1, true);
         }
         public void startAnimation(){
             anim1 = true;
             new Thread(() -> {
+                progressBar = new Animation(3000l, 243, 8, Easing.LINEAR);
                 anim = new Animation(500l, -500, 2, Easing.EASE_IN_OUT_CIRC);
                 try {
                     Thread.sleep(3000);
@@ -86,7 +91,6 @@ public class Notification {
                     throw new RuntimeException(e);
                 }
                 anim1 = false;
-
                 tryRemoveSelf();
             }).start();
         }
