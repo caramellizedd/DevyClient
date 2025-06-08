@@ -26,8 +26,7 @@ public class ClientSSelectionScreen extends Screen {
             this.client.setScreen(new HUDConfigScreen(DevyMainClient.instance.hudManager, this));
         }).width(212).build(), 2);
         adder.add(ButtonWidget.builder(Text.of("Client Settings"), button -> {
-            //this.client.setScreen(new SettingsScreen(this, DevyMainClient.instance.hudManager));
-            this.client.setScreen(new ScreenMain(new SettingsScreen(this, DevyMainClient.instance.hudManager), this));
+            this.client.setScreen(new SettingsScreen(this, DevyMainClient.instance.hudManager));
         }).width(212).build(), 2);
         adder.add(ButtonWidget.builder(Text.of("About this Client"), button -> {
 
@@ -42,7 +41,15 @@ public class ClientSSelectionScreen extends Screen {
     }
     @Override
     protected void applyBlur() {
+        GlStateManager._enableScissorTest();
+        if(client.getWindow().getScaleFactor() == 2){
+            GlStateManager._scissorBox(20,20, width*2-40, height*2-41);
+        }else if(client.getWindow().getScaleFactor() == 1){
+            GlStateManager._scissorBox(10,10, width-20, height-21);
+        }
         this.client.gameRenderer.renderBlur();
+        this.client.getFramebuffer().beginWrite(false);
+        GlStateManager._disableScissorTest();
     }
 
     @Override

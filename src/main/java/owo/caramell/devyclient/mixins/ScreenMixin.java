@@ -1,7 +1,5 @@
 package owo.caramell.devyclient.mixins;
 
-import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +12,6 @@ import owo.caramell.devyclient.client.DevyMainClient;
 public class ScreenMixin {
     @Inject(method = "render", at = @At("RETURN"))
     private void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        if(!(MinecraftClient.getInstance().currentScreen instanceof CottonClientScreen))
-            DevyMainClient.instance.notifAPI.render(context);
+        DevyMainClient.instance.notifAPI.render(context);
     }
 }
