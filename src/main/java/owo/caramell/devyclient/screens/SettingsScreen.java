@@ -14,6 +14,7 @@ import owo.caramell.devyclient.HUD.IRenderer;
 import owo.caramell.devyclient.HUD.Loader.HUD;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.client.DevyMainClient;
+import owo.caramell.devyclient.client.NotifsAPI.Notification;
 
 public class SettingsScreen extends Screen {
     protected SettingsScreen(Screen prevScreen, HUDManager api) {
@@ -70,11 +71,10 @@ public class SettingsScreen extends Screen {
          *
          * NOTE: If you're keeping them as Easter Egg, please mark them. Thank you :3
          */
-        if(modifiers == 1 && keyCode == 68){ // Easter Egg
+        if(modifiers == 1 && keyCode == 68) { // Easter Egg
             DevyMainClient.instance.alwaysShowGUIName = DevyMainClient.instance.alwaysShowGUIName ? false : true;
             MinecraftClient.getInstance().updateWindowTitle();
         }
-        DevyMainClient.instance.notifAPI.requestNotification("KEYCODEDBG", modifiers + "/" + keyCode);
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
@@ -152,6 +152,7 @@ public class SettingsScreen extends Screen {
             adder.add(CheckboxWidget.builder(Text.of("- Enable Verbose Log"), textRenderer).checked(DevyMainClient.instance.settings.verboseLog).callback((checkbox, checked) -> {
                 DevyMainClient.instance.settings.verboseLog = checked;
             }).build(), grid.copyPositioner().marginBottom(2));
+            adder.add(ButtonWidget.builder(Text.of("Send Notification"),button -> { DevyMainClient.instance.notifAPI.requestNotification("Pride Month"," Happy gay month.. or sum"); }).build());
         }
     }
 }

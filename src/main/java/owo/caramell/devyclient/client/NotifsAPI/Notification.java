@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Notification {
-    private String notifContent = "";
     public List<notifs> notifsList = new ArrayList<>();
 
     public void render(DrawContext context){
@@ -69,10 +68,10 @@ public class Notification {
                 lastY = y;
             }
             context.fill( x - 3, (int)anim2.getValue() - 3, (x + 240), (int)anim2.getValue() + height + 6, 0xAA000000);
-            context.drawBorder( x - 3, (int)anim2.getValue() - 3, 243, height + 9, 0xFFCCCCCC);
+            context.drawBorder( x - 3, (int)anim2.getValue() - 3, 243, height + 9, 0xAACCCCCC);
             context.drawHorizontalLine(x-3, ((int)progressBar.getValue() - 3),(((int)anim2.getValue() - 5) + height + 9),0xFF00FF00);
-            context.drawText(MinecraftClient.getInstance().textRenderer, "(" + title + ") ", x+3,2 + (int)anim2.getValue(), -1, true);
-            context.drawText(MinecraftClient.getInstance().textRenderer, content, x+3,MinecraftClient.getInstance().textRenderer.fontHeight + 6 + (int)anim2.getValue(), -1, true);
+            context.drawText(MinecraftClient.getInstance().textRenderer, "[ " + title + " ]", x+3,2 + (int)anim2.getValue(), -1, true);
+            context.drawText(MinecraftClient.getInstance().textRenderer, content, x-1,MinecraftClient.getInstance().textRenderer.fontHeight + 6 + (int)anim2.getValue(), -1, true);
         }
         public void startAnimation(){
             anim1 = true;
