@@ -45,6 +45,7 @@ public class Notification {
         private String title;
         private String content;
         private boolean anim1 = false;
+        private boolean isDimissed = false;
         Animation anim = new Animation(1000l, -2001, -2000, Easing.EASE_IN_OUT_CIRC);
         Animation anim2 = null;
         Animation progressBar = new Animation(30l, 243, 243, Easing.LINEAR);
@@ -76,14 +77,14 @@ public class Notification {
         public void startAnimation(){
             anim1 = true;
             new Thread(() -> {
-                progressBar = new Animation(3000l, 243, 8, Easing.LINEAR);
-                anim = new Animation(500l, -500, 2, Easing.EASE_IN_OUT_CIRC);
+                animateIn();
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                anim = new Animation(500l, 2, -200, Easing.EASE_IN_OUT_CIRC);
+                if(isDimissed) return;
+                animateOut();
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
@@ -92,6 +93,13 @@ public class Notification {
                 anim1 = false;
                 tryRemoveSelf();
             }).start();
+        }
+        private void animateIn(){
+            progressBar = new Animation(3000l, 243, 8, Easing.LINEAR);
+            anim = new Animation(500l, -500, 2, Easing.EASE_IN_OUT_CIRC);
+        }
+        private void animateOut(){
+            anim = new Animation(500l, 2, -200, Easing.EASE_IN_OUT_CIRC);
         }
         private void tryRemoveSelf(){
             try{
