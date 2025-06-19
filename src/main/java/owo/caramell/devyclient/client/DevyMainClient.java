@@ -29,6 +29,7 @@ public class DevyMainClient implements ClientModInitializer {
     public StatusBarColors sBarColors;
     public boolean configLoaded = false;
     public boolean discordRPCFailed = false;
+    public boolean isDALoggedIn = false;
     public Notification notifAPI;
     // Controls
     private static KeyBinding fullbright;

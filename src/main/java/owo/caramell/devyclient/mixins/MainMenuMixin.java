@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.caramell.devyclient.StaticStrings;
 import owo.caramell.devyclient.client.DevyMainClient;
 import owo.caramell.devyclient.screens.ClientSSelectionScreen;
@@ -46,6 +47,10 @@ public class MainMenuMixin extends Screen {
     }
     @Inject(method = "render", at = @At("RETURN"))
     private void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-
+        owo.caramell.devyclient.screens.TitleScreen.render(context, mouseX, mouseY, delta);
+    }
+    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    private void mouseClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir){
+        owo.caramell.devyclient.screens.TitleScreen.mouseClicked(mouseX, mouseY, button);
     }
 }
