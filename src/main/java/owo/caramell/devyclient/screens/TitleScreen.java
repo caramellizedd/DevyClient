@@ -11,6 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.caramell.devyclient.client.DevyMainClient;
 
 public class TitleScreen {
+    /**
+     * TitleScreen - Helper Class for modifying the Title Screen.
+     * Open the main title screen class in the Mixins Package.
+     */
     public static void render(DrawContext context, int mouseX, int mouseY, float delta){
         renderAccountOverlay(context, mouseX, mouseY, delta);
     }
@@ -38,6 +42,7 @@ public class TitleScreen {
     }
     private static void onAccOverlayPressed(){
         MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        MinecraftClient.getInstance().setScreen(new AccountScreen());
     }
     public static void mouseClicked(double mouseX, double mouseY, int button){
         boolean isHover = (mouseX >= 10 && mouseX <= 110) && (mouseY >= 30 && mouseY <= 70);
