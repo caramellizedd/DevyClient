@@ -40,6 +40,8 @@ public class MainMenuMixin extends Screen {
         }
 
         addDrawableChild(new TextWidget(10,10,this.textRenderer.getWidth("Running DevyClient 9.9-DEV"), this.textRenderer.fontHeight, Text.of(StaticStrings.version), this.textRenderer));
+        if(StaticStrings.version.contains("DEV"))
+            addDrawableChild(new TextWidget(10,20,this.textRenderer.getWidth("This version is UNSTABLE. Please report any crashes or bugs in github issues."), this.textRenderer.fontHeight, Text.of("This version is UNSTABLE. Please report any crashes or bugs in github issues."), this.textRenderer));
         // The sigma button - Don't remove this until you find a way to draw icons on buttons :3
         addDrawableChild(ButtonWidget.builder(Text.of("Σ"), button -> this.client.setScreen(new ClientSSelectionScreen(this))).dimensions(this.width / 2 - 124, this.height / 4 + 48, 20, 20).build());
         //DevyMainClient.instance.notifAPI.showNotification(Text.literal("Lorem ipsum sit dolor amet. uwaaa"));

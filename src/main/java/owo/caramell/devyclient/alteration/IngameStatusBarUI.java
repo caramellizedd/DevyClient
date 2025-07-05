@@ -16,7 +16,7 @@ public class IngameStatusBarUI {
     /**
      * drawHealthbars Function
      * @Credits: Mojang
-     * @ModifiedBy: Charamellized
+     * @ModifiedBy: CRML Studios.
      * @Reason: Health UI Modifications.
      * @param context The main game DrawContext
      * @param player The Player Entity

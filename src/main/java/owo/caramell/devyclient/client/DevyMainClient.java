@@ -19,13 +19,23 @@ import owo.caramell.devyclient.DiscordRPC.DiscordRPC;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.Configs.Settings;
 import owo.caramell.devyclient.client.NotifsAPI.Notification;
+import owo.caramell.devyclient.client.account.AccountManager;
 
 public class DevyMainClient implements ClientModInitializer {
+    /**
+     * DevyMainClient Class
+     * Made by CRML Studios.
+     * Licensed with GPL-3.0 License.
+     *
+     * This class is the main class for this Mod.
+     * This is where most stuff happens.
+     */
     public static final Logger logger = LoggerFactory.getLogger(DevyClient.class);
     private DiscordRPC DiscordEvent = new DiscordRPC();
     public static DevyMainClient instance;
     public HUDManager hudManager;
     public Settings settings;
+    public AccountManager accountManager;
     public StatusBarColors sBarColors;
     public boolean configLoaded = false;
     public boolean discordRPCFailed = false;
@@ -40,10 +50,10 @@ public class DevyMainClient implements ClientModInitializer {
         instance = this;
         // Initialize controls
         fullbright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "owo.caramell.keyfullbright", // The translation key of the keybinding's name
-                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_M, // The keycode of the key
-                "owo.caramell.controlscategory" // The translation key of the keybinding's category.
+                "owo.caramell.keyfullbright",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_M,
+                "owo.caramell.controlscategory"
         ));
 
         logger.info("Initializing Settings...");
@@ -55,6 +65,11 @@ public class DevyMainClient implements ClientModInitializer {
         logger.info("Initializing NotifsAPI...");
         notifAPI = new Notification();
         logger.info("NotifsAPI has been Initialized!");
+
+        logger.info("Initializing Account Manager...");
+        accountManager = new AccountManager();
+        logger.info("Account Manager has been Initialized!");
+
 
         logger.info("Main Client has been initialized!");
 

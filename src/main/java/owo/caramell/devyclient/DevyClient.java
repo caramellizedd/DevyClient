@@ -7,6 +7,11 @@ import owo.caramell.devyclient.Utils.ConfigUtils;
 import owo.caramell.devyclient.client.DevyMainClient;
 
 public class DevyClient implements ModInitializer {
+    /**
+     *  DevyClient Class
+     *  This does nothing besides early-initializations.
+     *  For a proper Client Class go to owo.caramell.devyclient.client.DevyMainClient
+     */
     @Override
     public void onInitialize() {
         DevyMainClient.logger.info("Testing classes...");

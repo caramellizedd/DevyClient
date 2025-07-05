@@ -5,7 +5,11 @@
   "owo.caramell.healthuititle": "§7===§rHealth UI§7===",
   "owo.caramell.alterstatusbar": "Replace Vanilla Status Bar UI with a Simpler one",
   "owo.caramell.loggedinas": "Logged in as:",
-  "owo.caramell.noacc": "(No DevyAccount)",
-  "owo.caramell.acc": "(DevyAccount)",
-  "owo.caramell.accexpired": "(DA-Expired)"
+  "owo.caramell.noacc": "",
+  "owo.caramell.acc": "(Logged in.)",
+  "owo.caramell.accexpired": "(Expired)",
+  "owo.caramell.passfieldtext": "Password: ",
+  "owo.caramell.userfieldtext": "Username: ",
+  "owo.caramell.registerbutton": "Register",
+  "owo.caramell.verwatermark": "DevyClient Revised 0.1-DEV"
 }
