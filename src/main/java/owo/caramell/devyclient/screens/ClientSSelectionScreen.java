@@ -1,6 +1,7 @@
 package owo.caramell.devyclient.screens;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.*;
@@ -61,7 +62,19 @@ public class ClientSSelectionScreen extends Screen {
         //context.drawText(client.textRenderer, "GUI Scale: " + client.getWindow().getScaleFactor(), 0, 0, -1, true);
         //this.renderDarkening(context);
     }
-
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        /**
+         * Debug Keybinds
+         * You may remove them or keep them as an Easter Egg
+         *
+         * NOTE: If you're keeping them as Easter Egg, please mark them. Thank you :3
+         */
+        if(modifiers == 1 && keyCode == 68) { // Easter Egg
+            MinecraftClient.getInstance().setScreen(new MusicPlayer());
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
