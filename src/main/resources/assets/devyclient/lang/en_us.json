@@ -11,5 +11,7 @@
   "owo.caramell.passfieldtext": "Password: ",
   "owo.caramell.userfieldtext": "Username: ",
   "owo.caramell.registerbutton": "Register",
+  "owo.caramell.loginbutton": "Login",
+  "owo.caramell.genericback": "Back",
   "owo.caramell.verwatermark": "DevyClient Revised 0.1-DEV"
 }
