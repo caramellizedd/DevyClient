@@ -59,18 +59,10 @@ public class MixinCraft {
     }
     @Inject(method = "onFinishedLoading", at = @At("HEAD"))
     private void loadFinish(CallbackInfo ci){
-        DevyMainClient.logger.info("Initializing Disocrd RPC...");
-        if(!DevyMainClient.instance.getDiscordRPC().start()) {
-            DevyMainClient.instance.discordRPCFailed = true;
-            DevyMainClient.logger.error("Discord RPC Failed to initialize!");
-        }
+
     }
     @Inject(method = "tick", at = @At("HEAD"))
     private void earlyTick(CallbackInfo ci){
-        if(!DevyMainClient.instance.discordRPCFailed && DevyMainClient.instance.getDiscordRPC().running) {
-            DevyMainClient.instance.getDiscordRPC().core.runCallbacks();
-            DevyMainClient.instance.tick();
-        }
         MinecraftClient.getInstance().updateWindowTitle();
     }
     @Inject(method = "stop", at = @At("HEAD"))

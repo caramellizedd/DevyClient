@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import owo.caramell.devyclient.Configs.StatusBarColors;
 import owo.caramell.devyclient.DevyClient;
-import owo.caramell.devyclient.DiscordRPC.DiscordRPC;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.Configs.Settings;
 import owo.caramell.devyclient.client.NotifsAPI.Notification;
@@ -31,7 +30,6 @@ public class DevyMainClient implements ClientModInitializer {
      * This is where most stuff happens.
      */
     public static final Logger logger = LoggerFactory.getLogger(DevyClient.class);
-    private DiscordRPC DiscordEvent = new DiscordRPC();
     public static DevyMainClient instance;
     public HUDManager hudManager;
     public Settings settings;
@@ -88,19 +86,6 @@ public class DevyMainClient implements ClientModInitializer {
         });
     }
 
-    public DiscordRPC getDiscordRPC(){
-        return DiscordEvent;
-    }
-
-    public void tick() {
-        if(MinecraftClient.getInstance().currentScreen != null){
-            DevyMainClient.instance.getDiscordRPC().update("In " + MinecraftClient.getInstance().currentScreen.getTitle().getString(), "");
-        }
-        if(MinecraftClient.getInstance().world !=null && !MinecraftClient.getInstance().isPaused()){
-            if(MinecraftClient.getInstance().isInSingleplayer())
-                DevyMainClient.instance.getDiscordRPC().update("In Singleplayer", MinecraftClient.getInstance().getServer().getSavePath(WorldSavePath.ROOT).getParent().getFileName().toString());
-        }
-    }
     public void loadSettings(){
         DevyMainClient.instance.sBarColors.fixValues();
         DevyMainClient.instance.settings.loadAll();
