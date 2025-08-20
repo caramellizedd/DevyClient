@@ -28,6 +28,7 @@ public class AccountManager {
      **/
     public static AccountManager instance;
     private HttpClient httpClient;
+    private String urlAddr = "https://loginapi.transcatirl.com";
     public AccountManager(){
         instance = this;
         httpClient = HttpClient.newBuilder()
@@ -38,19 +39,28 @@ public class AccountManager {
     }
     public boolean login(String user, String passwordRaw){
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://192.168.1.8:8099/login"))
-                .POST(null)
+                .uri(URI.create(urlAddr + "/login"))
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .header("User", user)
                 .header("Pass", passwordRaw)
+                .timeout(Duration.ofSeconds(1))
                 .build();
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            DevyMainClient.logger.info("Status Code: " + response.statusCode());
+            DevyMainClient.logger.info("Response Body: " + response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
     public boolean register(String user, String passwordRaw){
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.1.8:8099/register"))
+                .uri(URI.create(urlAddr + "/register"))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .header("User", user)
                 .header("Password", passwordRaw)
+                .timeout(Duration.ofSeconds(1))
                 .build();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
