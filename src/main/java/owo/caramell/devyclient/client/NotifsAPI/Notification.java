@@ -76,8 +76,8 @@ public class Notification {
             // Mouse hover checker
             //boolean isHover = (mouseX >= 10 && mouseX <= 110) && (mouseY >= 30 && mouseY <= 70);
             Mouse mouse = MinecraftClient.getInstance().mouse;
-            boolean isHover = (mouse.getX() >= x && mouse.getX() <= x+(243*MinecraftClient.getInstance().getWindow().getScaleFactor())) &&
-                    (mouse.getY() >= yScaled && mouse.getY() <= yScaled + (height * MinecraftClient.getInstance().getWindow().getScaleFactor()) + 6);
+            boolean isHover = (mouse.getX() >= x && mouse.getX() <= x+(243*MinecraftClient.getInstance().getWindow().getScaleFactor())+2) &&
+                    (mouse.getY() >= yScaled && mouse.getY() <= yScaled + (height * MinecraftClient.getInstance().getWindow().getScaleFactor()) + 12);
 
             // Start opening animation.
             if(lastY != y && anim1){
