@@ -54,11 +54,6 @@ public class HUDConfigScreen extends Screen {
     IRenderer selected = null;
 
     @Override
-    protected void applyBlur() {
-        //super.applyBlur(delta);
-    }
-
-    @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         if(!dragged){
@@ -158,6 +153,11 @@ public class HUDConfigScreen extends Screen {
             renderer.save(renderers.get(renderer));
         }
         this.client.setScreen(lastScreen);
+    }
+
+    @Override
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        this.renderDarkening(context);
     }
 
     @Override

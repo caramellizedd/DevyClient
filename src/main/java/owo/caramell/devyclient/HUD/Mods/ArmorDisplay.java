@@ -28,7 +28,11 @@ public class ArmorDisplay extends HUDDraggable {
         if(mc.world != null && mc.player != null){
             if(mc.player.getMainHandStack() == ItemStack.EMPTY || !mc.player.getMainHandStack().isDamageable()){
                 int slot = 0;
-                for(ItemStack is : mc.player.getArmorItems()){
+                ItemStack[] armorItems = new ItemStack[4];
+                for (int i = 0; i < 4; i++) {
+                    armorItems[i] = mc.player.getInventory().getStack(36 + i);
+                }
+                for(ItemStack is : armorItems){
                     if(is == ItemStack.EMPTY) continue;
                     renderItemStack(pos, is, slot, drawContext);
                     slot++;
@@ -37,7 +41,11 @@ public class ArmorDisplay extends HUDDraggable {
             }
             renderItemStack(pos, mc.player.getMainHandStack(), 0, drawContext);
             int slot = 1;
-            for(ItemStack is : mc.player.getArmorItems()){
+            ItemStack[] armorItems = new ItemStack[4];
+            for (int i = 0; i < 4; i++) {
+                armorItems[i] = mc.player.getInventory().getStack(36 + i);
+            }
+            for(ItemStack is : armorItems){
                 if(is == ItemStack.EMPTY) continue;
                 renderItemStack(pos, is, slot, drawContext);
                 slot++;
@@ -50,9 +58,13 @@ public class ArmorDisplay extends HUDDraggable {
         if(mc.world != null && mc.player != null){
             if(mc.player.getMainHandStack() == ItemStack.EMPTY || !mc.player.getMainHandStack().isDamageable()){
                 int slot = 0;
+                ItemStack[] armorItems = new ItemStack[4];
+                for (int i = 0; i < 4; i++) {
+                    armorItems[i] = mc.player.getInventory().getStack(36 + i);
+                }
                 renderItemStack(pos, Items.IRON_AXE, 0, drawContext);
                 slot++;
-                for(ItemStack is : mc.player.getArmorItems()){
+                for(ItemStack is : armorItems){
                     if(is == ItemStack.EMPTY) {
                         switch(slot){
                             case 1:
@@ -80,9 +92,13 @@ public class ArmorDisplay extends HUDDraggable {
                 return;
             }else{
                 int slot = 0;
+                ItemStack[] armorItems = new ItemStack[4];
+                for (int i = 0; i < 4; i++) {
+                    armorItems[i] = mc.player.getInventory().getStack(36 + i);
+                }
                 renderItemStack(pos, mc.player.getMainHandStack(), 0, drawContext);
                 slot++;
-                for(ItemStack is : mc.player.getArmorItems()){
+                for(ItemStack is : armorItems){
                     if(is == ItemStack.EMPTY) {
                         switch(slot){
                             case 1:

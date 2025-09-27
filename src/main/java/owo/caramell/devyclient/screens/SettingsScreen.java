@@ -1,5 +1,6 @@
 package owo.caramell.devyclient.screens;
 
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -58,9 +59,9 @@ public class SettingsScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        RenderSystem.enableBlend();
+        GlStateManager._enableBlend();
         //context.drawTexture(Screen.FOOTER_SEPARATOR_TEXTURE, 0, this.height - this.layout.getFooterHeight() - 2, 0.0f, 0.0f, this.width, 2, 32, 2);
-        RenderSystem.disableBlend();
+        GlStateManager._disableBlend();
     }
 
     @Override

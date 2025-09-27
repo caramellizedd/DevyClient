@@ -1,5 +1,6 @@
 package owo.caramell.devyclient.alteration;
 
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -68,7 +69,7 @@ public class IngameStatusBarUI {
         }
     }
     private void drawHeart2(DrawContext context, PublicEnum.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
-        RenderSystem.enableBlend();
+        GlStateManager._enableBlend();
         if(blinking){
             context.fill(x,y,x+2,y+9, 0xFFFF01E6);
             return;
@@ -92,8 +93,7 @@ public class IngameStatusBarUI {
                 default -> context.fill(x,y,x+2,y+9, StatusBarColors.instance.HPColorContainer);
             }
         }
-
-        RenderSystem.disableBlend();
+        GlStateManager._disableBlend();
     }
     private void drawHeartBlink(DrawContext context, int x, int y, int width){
         context.drawBorder(x-1,y-1, width+2, 11, 0xFFFFFFFF);

@@ -1,6 +1,6 @@
 package owo.caramell.devyclient.screens;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -41,25 +41,13 @@ public class ClientSSelectionScreen extends Screen {
         gridWidget.forEachChild(this::addDrawableChild);
         //this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.options"), button -> this.client.setScreen(new OptionsScreen(this, this.client.options))).dimensions(this.width / 2 - 100, 72 + 12, 98, 20).build());
     }
-    @Override
-    protected void applyBlur() {
-        GlStateManager._enableScissorTest();
-        if(client.getWindow().getScaleFactor() == 2){
-            GlStateManager._scissorBox(20,20, width*2-40, height*2-41);
-        }else if(client.getWindow().getScaleFactor() == 1){
-            GlStateManager._scissorBox(10,10, width-20, height-21);
-        }
-        this.client.gameRenderer.renderBlur();
-        this.client.getFramebuffer().beginWrite(false);
-        GlStateManager._disableScissorTest();
-    }
 
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
         if (this.client.world == null) {
             this.renderPanoramaBackground(context, delta);
         }
-        this.applyBlur();
+        this.applyBlur(context);
         //context.drawText(client.textRenderer, "GUI Scale: " + client.getWindow().getScaleFactor(), 0, 0, -1, true);
         //this.renderDarkening(context);
     }
@@ -85,10 +73,10 @@ public class ClientSSelectionScreen extends Screen {
     }
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
         GuiUtils.drawRoundBG(context.getMatrices(), this);
         context.drawBorder(10,10,width-20,height-20,0x55FFFFFF);
         context.fill(10,10,width-10,height-10, 0x77000000);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override

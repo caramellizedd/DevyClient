@@ -32,7 +32,7 @@ public class MixinCraft {
             stringBuilder.append("*");
         }
         stringBuilder.append(" ");
-        stringBuilder.append(SharedConstants.getGameVersion().getName());
+        stringBuilder.append(SharedConstants.getGameVersion().name());
         ClientPlayNetworkHandler clientPlayNetworkHandler = client.getNetworkHandler();
         if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {
             stringBuilder.append(" - ");
