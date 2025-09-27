@@ -9,7 +9,8 @@
     "GameMenuMixin",
     "MixinCraft",
     "DoubleSliderCallbacksMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "KeyboardMixin"
   ],
   "client": [
   ],

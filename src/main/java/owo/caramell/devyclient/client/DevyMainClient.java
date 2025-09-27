@@ -41,6 +41,8 @@ public class DevyMainClient implements ClientModInitializer {
     public Notification notifAPI;
     // Controls
     private static KeyBinding fullbright;
+    // Debug
+    public int keyCode = 0;
 
     @Override
     public void onInitializeClient() {
@@ -100,4 +102,5 @@ public class DevyMainClient implements ClientModInitializer {
      * NOTE: Please set ALL OF THESE to FALSE before publishing
      */
     public boolean alwaysShowGUIName = false;
+    public boolean showKeyCode = false;
 }

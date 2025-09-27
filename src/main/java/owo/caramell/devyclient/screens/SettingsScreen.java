@@ -73,6 +73,7 @@ public class SettingsScreen extends Screen {
          */
         if(modifiers == 1 && keyCode == 68) { // Easter Egg
             DevyMainClient.instance.alwaysShowGUIName = DevyMainClient.instance.alwaysShowGUIName ? false : true;
+            DevyMainClient.instance.showKeyCode = DevyMainClient.instance.showKeyCode ? false : true;
             MinecraftClient.getInstance().updateWindowTitle();
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
@@ -152,7 +153,7 @@ public class SettingsScreen extends Screen {
             adder.add(CheckboxWidget.builder(Text.of("- Enable Verbose Log"), textRenderer).checked(DevyMainClient.instance.settings.verboseLog).callback((checkbox, checked) -> {
                 DevyMainClient.instance.settings.verboseLog = checked;
             }).build(), grid.copyPositioner().marginBottom(2));
-            adder.add(ButtonWidget.builder(Text.of("Send Notification"),button -> { DevyMainClient.instance.notifAPI.requestNotification("Pride Month"," Happy gay month.. or sum"); }).build());
+            adder.add(ButtonWidget.builder(Text.of("Send Notification"),button -> { DevyMainClient.instance.notifAPI.requestNotification("Pride Month","Happy gay month.. or sum"); }).build());
         }
     }
 }

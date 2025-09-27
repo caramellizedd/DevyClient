@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import owo.caramell.devyclient.DevyClient;
 import owo.caramell.devyclient.HUD.Loader.HUDInstances;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.StaticStrings;
@@ -48,6 +49,7 @@ public class MixinCraft {
         }
         stringBuilder.append(" | " + StaticStrings.version);
         if(DevyMainClient.instance.alwaysShowGUIName) if(MinecraftClient.getInstance().currentScreen != null) stringBuilder.append(" | " + MinecraftClient.getInstance().currentScreen.getTitle().getString());
+        if(DevyMainClient.instance.showKeyCode) stringBuilder.append(" | KeyCode: " + DevyMainClient.instance.keyCode);
         return stringBuilder.toString();
     }
     @Inject(method = "<init>", at = @At("RETURN"))

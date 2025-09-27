@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.*;
 import net.minecraft.text.Text;
 import owo.caramell.devyclient.Utils.GuiUtils;
 import owo.caramell.devyclient.client.DevyMainClient;
+import owo.caramell.devyclient.screens.debug.NotifTestScreen;
 
 // SSelection - S(Settings)Selection
 // I am so good at making names - Charamellized
@@ -70,8 +71,15 @@ public class ClientSSelectionScreen extends Screen {
          *
          * NOTE: If you're keeping them as Easter Egg, please mark them. Thank you :3
          */
-        if(modifiers == 1 && keyCode == 68) { // Easter Egg
-            MinecraftClient.getInstance().setScreen(new MusicPlayer());
+        if(modifiers == 1) { // Easter Egg
+            switch (keyCode){
+                case 68: // D
+                    MinecraftClient.getInstance().setScreen(new MusicPlayer());
+                    break;
+                case 70: // F
+                    MinecraftClient.getInstance().setScreen(new NotifTestScreen());
+                    break;
+            }
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }

@@ -13,5 +13,9 @@
   "owo.caramell.registerbutton": "Register",
   "owo.caramell.loginbutton": "Login",
   "owo.caramell.genericback": "Back",
-  "owo.caramell.verwatermark": "DevyClient Revised 0.1-DEV"
+  "owo.caramell.verwatermark": "DevyClient Revised 0.1-DEV",
+  "owo.caramell.debug.notif": "Notification Test Screen",
+  "owo.caramell.debug.notif.send": "Send Notification",
+  "owo.caramell.debug.notif.texttitle": "Title:",
+  "owo.caramell.debug.notif.textcontent": "Content:"
 }
