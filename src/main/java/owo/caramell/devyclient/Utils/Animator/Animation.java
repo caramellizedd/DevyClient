@@ -5,6 +5,8 @@ package owo.caramell.devyclient.Utils.Animator;
  * This eliminates discrepancies with different framerates
  *
  * @author SIMULATAN (github.com/SIMULATAN)
+ *
+ * DO NOT REMOVE THIS NOTICE
  */
 public class Animation {
 

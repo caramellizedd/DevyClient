@@ -6,16 +6,11 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
-import net.minecraft.text.Text;
-import owo.caramell.devyclient.DevyClient;
 import owo.caramell.devyclient.Utils.Animator.Animation;
 import owo.caramell.devyclient.Utils.Animator.Easing;
 import owo.caramell.devyclient.client.DevyMainClient;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Notification {
     public List<notifs> notifsList = new ArrayList<>();
@@ -33,9 +28,11 @@ public class Notification {
         }
     }
 
+    // will be used later
     private int getPosType(){
         return DevyMainClient.instance.settings.notifPosType;
     }
+
     public void requestNotification(String title, Object content){
         try{
             notifsList.add(new notifs(title, String.valueOf(content)));
@@ -46,29 +43,36 @@ public class Notification {
     }
 
     public class notifs{
-        private String title;
-        private String content;
+        private final String title;
+        private final String content;
         private boolean anim1 = false;
         private boolean isDimissed = false;
-        Animation anim = new Animation(1000l, -2001, -2000, Easing.EASE_IN_OUT_CIRC);
+        Animation anim = new Animation(1000L, -2001, -2000, Easing.EASE_IN_OUT_CIRC);
         Animation anim2 = null;
-        Animation progressBar = new Animation(30l, 243, 243, Easing.LINEAR);
-        private int lastY = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32);
+        Animation progressBar = new Animation(30L, 243, 243, Easing.LINEAR);
+        private float lastY = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32);
+        public int heightExtra = 0;
+        public int height = 0;
         notifs(String title, String content){
             this.title = title;
             this.content = content;
+            // Get the last notifs height offset
         }
         public void render(DrawContext context){
+            // TODO: Fix the notification having the wrong y values.
             int textLines = 0;
             TextRenderer textRndr = MinecraftClient.getInstance().textRenderer;
-            List<OrderedText> list = textRndr.wrapLines(StringVisitable.plain(content), 240);
+            List<OrderedText> list = textRndr.wrapLines(StringVisitable.plain(content), 230);
             for(OrderedText unused : list)
                 textLines++;
             // Border and background square size
-            int y1 = 42 * (notifsList.indexOf(this) + 1);
-            int offsetY = textRndr.fontHeight * (textLines == 0 ? 1 : textLines-1);
-            int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32) - y1 + 28 - offsetY;
-            int height = 30 + offsetY;
+            int y1 = 42 * (notifsList.indexOf(this) + 1); // Height offset
+            heightExtra = textRndr.fontHeight * (textLines == 0 ? 1 : textLines-1);
+            // I genuinely want to kms, I'm gonna work on this later
+            //int lastHeight = (getPreviousNotifObject(notifsList, this) != null ? getPreviousNotifObject(notifsList, this).height : 0);
+            //float y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32) - lastHeight - y1 + 28 - heightExtra;
+            float y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - 32) - y1 + 28 - heightExtra;
+            height = 30 + heightExtra;
             int x = 8 + (int)anim.getValue();
             // Scaled Y because Minecraft goes fuckery mode doing 2D Y coordinates
             double yScaled = y * MinecraftClient.getInstance().getWindow().getScaleFactor();
@@ -81,13 +85,13 @@ public class Notification {
 
             // Start opening animation.
             if(lastY != y && anim1){
-                anim2 = new Animation(300l, lastY, y, Easing.EASE_OUT_CIRC);
+                anim2 = new Animation(300L, lastY, y, Easing.EASE_OUT_CIRC);
                 lastY = y;
             }
 
             if(!anim1) {
                 startAnimation();
-                anim2 = new Animation(300l, y+0.1F, y, Easing.EASE_OUT_CIRC); // Setting y+0.1F to just y breaks the animation
+                anim2 = new Animation(300L, y+0.1F, y, Easing.EASE_OUT_CIRC); // Setting y+0.1F to just y breaks the animation
                 lastY = y;
             }
             // Render the notification square and text.
@@ -97,7 +101,7 @@ public class Notification {
                 context.drawHorizontalLine(x-2, ((int)progressBar.getValue() - 3),(((int)anim2.getValue() - 5) + height + 9),0xFF00FF00);
             // Render the notification border
             context.drawBorder( x - 3, (int)anim2.getValue() - 3, 243, height + 9, isHover ? 0xAAFF0000 : 0xAACCCCCC);
-            context.drawText(textRndr, "[ " + title + " ]", x+3,2 + (int)anim2.getValue(), -1, true);
+            context.drawText(textRndr, "[ " + title + " | " + heightExtra + " | " + y + " | " + y1 + " | " + notifsList.indexOf(this) + "]", x+3,2 + (int)anim2.getValue(), -1, true);
             int index = 1;
             for(OrderedText text : list){
                 context.drawText(textRndr, text, x+3,(MinecraftClient.getInstance().textRenderer.fontHeight*index) + 6 + (int)anim2.getValue(), -1, true);
@@ -125,16 +129,16 @@ public class Notification {
             }).start();
         }
         private void animateIn(){
-            anim = new Animation(500l, -500, 2, Easing.EASE_IN_OUT_CIRC);
+            anim = new Animation(500L, -500, 2, Easing.EASE_IN_OUT_CIRC);
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            progressBar = new Animation(3000l, 243, 8, Easing.LINEAR);
+            progressBar = new Animation(3000L, 243, 8, Easing.LINEAR);
         }
         private void animateOut(){
-            anim = new Animation(500l, 2, -200, Easing.EASE_IN_OUT_CIRC);
+            anim = new Animation(500L, 2, -200, Easing.EASE_IN_OUT_CIRC);
         }
         private void tryRemoveSelf(){
             try{
@@ -148,6 +152,26 @@ public class Notification {
                 tryRemoveSelf();
             }
         }
+        public static <T> T getPreviousNotifObject(List<T> list, T currentObject) {
+            if (list == null || list.isEmpty()) {
+                return null; // Handle empty or null list
+            }
+
+            int currentIndex = list.indexOf(currentObject);
+
+            if (currentIndex == -1) {
+                return null; // Current object not found in the list
+            }
+
+            int previousIndex = currentIndex - 1;
+
+            if (previousIndex >= 0) {
+                return list.get(previousIndex);
+            } else {
+                return null; // Current object is the first element, no previous element
+            }
+        }
+
     }
     public enum NotifType{
         Big,
