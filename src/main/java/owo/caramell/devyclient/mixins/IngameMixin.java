@@ -21,7 +21,8 @@ public class IngameMixin {
     @Inject(method = "render", at = @At("RETURN"))
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         // Changes: Draw watermark and call the Render event.
-        context.drawText(MinecraftClient.getInstance().textRenderer, StaticStrings.version, 2, 2, -1, true);
+        if(DevyMainClient.instance.settings.showVersionIngame)
+            context.drawText(MinecraftClient.getInstance().textRenderer, StaticStrings.version, 2, 2, -1, true);
         DevyMainClient.instance.hudManager.onRender(context);
     }
 

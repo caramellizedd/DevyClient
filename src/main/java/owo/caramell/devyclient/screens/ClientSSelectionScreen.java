@@ -24,16 +24,16 @@ public class ClientSSelectionScreen extends Screen {
         GridWidget gridWidget = new GridWidget();
         GridWidget.Adder adder = gridWidget.createAdder(2);
         gridWidget.getMainPositioner().margin(4, 4, 4, 0);
-        adder.add(ButtonWidget.builder(Text.of("Change HUD Positions"), button -> {
+        adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.hudpossettings"), button -> {
             this.client.setScreen(new HUDConfigScreen(DevyMainClient.instance.hudManager, this));
         }).width(212).build(), 2);
-        adder.add(ButtonWidget.builder(Text.of("Client Settings"), button -> {
+        adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.mainsettings"), button -> {
             this.client.setScreen(new SettingsScreen(this, DevyMainClient.instance.hudManager));
         }).width(212).build(), 2);
-        adder.add(ButtonWidget.builder(Text.of("About this Client"), button -> {
+        adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.aboutbtn"), button -> {
 
         }).width(102).build());
-        adder.add(ButtonWidget.builder(Text.of("Credits"), button -> {
+        adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.creditsbtn"), button -> {
 
         }).width(102).build());
         gridWidget.refreshPositions();

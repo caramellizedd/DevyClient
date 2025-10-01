@@ -3,6 +3,7 @@ package owo.caramell.devyclient.Configs;
 import owo.caramell.devyclient.Utils.ConfigAPI;
 import owo.caramell.devyclient.Utils.ConfigUtils;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,10 +20,11 @@ public class Settings {
     public boolean modifySplashText = false;
     public boolean fullbright = false;
     public boolean verboseLog = false;
+    public boolean showVersionIngame = true;
 
     public double lastBrightnessValue = 0.0D;
     public void loadAll(){
-        // TODO: Check if settings file exists, if not load default values
+        // TODO: Probably find a better way to do this somehow.
         if(config.getFile().exists()){
             convertOldValues();
             checkAllValues();
@@ -34,6 +36,7 @@ public class Settings {
             fullbright = (boolean)config.loadSavedValue("fullbright");
             lastBrightnessValue = (double)config.loadSavedValue("lastBrightnessValue");
             notifPosType = (int)config.loadSavedValue("notifPosType", true);
+            showVersionIngame = (boolean)config.loadSavedValue("showVersionIngame");
         }
         else loadDefaultValues();
     }
@@ -69,6 +72,7 @@ public class Settings {
         verboseLog = false;
         lastBrightnessValue = 0.0D;
         notifPosType = 0;
+        showVersionIngame = true;
         config.set("alterStatusBar", alterStatusBar);
         config.set("hpColored", hpColored);
         config.set("modifySplashText", modifySplashText);
@@ -76,6 +80,7 @@ public class Settings {
         config.set("verboseLog", verboseLog);
         config.set("lastBrightnessValue", lastBrightnessValue);
         config.set("notifPosType", notifPosType);
+        config.set("showVersionIngame", showVersionIngame);
         try {
             config.save();
         } catch (IOException e) {
@@ -110,6 +115,10 @@ public class Settings {
         if(!config.checkIfValueExists("notifPosType")) {
             notifPosType = 0;
             config.set("notifPosType", notifPosType);
+        }
+        if(!config.checkIfValueExists("showVersionIngame")){
+            showVersionIngame = true;
+            config.set("showVersionIngame", showVersionIngame);
         }
     }
     public static void refreshSettings(){

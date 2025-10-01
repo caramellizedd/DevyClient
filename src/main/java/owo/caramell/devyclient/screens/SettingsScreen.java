@@ -154,6 +154,9 @@ public class SettingsScreen extends Screen {
             adder.add(CheckboxWidget.builder(Text.of("- Enable Verbose Log"), textRenderer).checked(DevyMainClient.instance.settings.verboseLog).callback((checkbox, checked) -> {
                 DevyMainClient.instance.settings.verboseLog = checked;
             }).build(), grid.copyPositioner().marginBottom(2));
+            adder.add(CheckboxWidget.builder(Text.of("- Show version ingame (Must be visible for visual bugs)"), textRenderer).checked(DevyMainClient.instance.settings.showVersionIngame).callback((checkbox, checked) -> {
+                DevyMainClient.instance.settings.showVersionIngame = checked;
+            }).build(), grid.copyPositioner().marginBottom(2));
             adder.add(ButtonWidget.builder(Text.of("Send Notification"),button -> { DevyMainClient.instance.notifAPI.requestNotification("Pride Month","Happy gay month.. or sum"); }).build());
         }
     }
