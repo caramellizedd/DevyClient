@@ -28,7 +28,7 @@ public class AccountManager {
      **/
     public static AccountManager instance;
     private HttpClient httpClient;
-    private String urlAddr = "https://loginapi.transcatirl.com";
+    public static String urlAddr = "https://loginapi.transcatirl.com";
     public AccountManager(){
         instance = this;
         httpClient = HttpClient.newBuilder()
@@ -40,19 +40,23 @@ public class AccountManager {
     public boolean login(String user, String passwordRaw){
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(urlAddr + "/login"))
-                .POST(HttpRequest.BodyPublishers.noBody())
+                .GET()
                 .header("User", user)
-                .header("Pass", passwordRaw)
+                .header("Password", passwordRaw)
                 .timeout(Duration.ofSeconds(1))
                 .build();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             DevyMainClient.logger.info("Status Code: " + response.statusCode());
-            DevyMainClient.logger.info("Response Body: " + response.body());
+            if(response.body().contains("LOGSUCCESS")){
+                DevyMainClient.logger.info("Session ID: " + response.headers().firstValue("token").get());
+                DevyMainClient.instance.initCRMLAccount(response.headers().firstValue("token").get());
+            }
+            return response.body().contains("LOGSUCCESS");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
     public boolean register(String user, String passwordRaw){
         HttpRequest request = HttpRequest.newBuilder()
@@ -66,6 +70,7 @@ public class AccountManager {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             DevyMainClient.logger.info("Status Code: " + response.statusCode());
             DevyMainClient.logger.info("Response Body: " + response.body());
+            return response.body().contains("REGSUCCESS");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,0 +1,23 @@
+{
+  "owo.caramell.keyfullbright": "Tombol Fullbright",
+  "owo.caramell.controlscategory": "Kontrol DevyClient",
+  "owo.caramell.mainsettingstitle": "Pengaturan Utama",
+  "owo.caramell.healthuititle": "§7===§rHealth UI§7===",
+  "owo.caramell.alterstatusbar": "Ganti UI Status Bar Vanilla dengan yang lebih sederhana",
+  "owo.caramell.loggedinas": "Masuk sebagai:",
+  "owo.caramell.noacc": "",
+  "owo.caramell.acc": "(Logged in.)",
+  "owo.caramell.acc.warning1": "Fitur ini belum SELESAI. ",
+  "owo.caramell.acc.warning2": "Mohon gunakan sandi yang BERBEDA dari platform kamu yang lain.",
+  "owo.caramell.accexpired": "(Kadaluarsa)",
+  "owo.caramell.passfieldtext": "Sandi: ",
+  "owo.caramell.userfieldtext": "Nama Pengguna: ",
+  "owo.caramell.registerbutton": "Daftar",
+  "owo.caramell.loginbutton": "Masuk",
+  "owo.caramell.genericback": "Kembali",
+  "owo.caramell.verwatermark": "DevyClient Revised 0.1-DEV",
+  "owo.caramell.debug.notif": "Notification Test Screen",
+  "owo.caramell.debug.notif.send": "Kirim Notifikasi",
+  "owo.caramell.debug.notif.texttitle": "Judul:",
+  "owo.caramell.debug.notif.textcontent": "Konten:"
+}

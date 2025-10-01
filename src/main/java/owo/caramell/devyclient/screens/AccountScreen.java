@@ -1,6 +1,7 @@
 package owo.caramell.devyclient.screens;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.widget.*;
@@ -23,15 +24,21 @@ public class AccountScreen extends Screen {
         gridWidget.getMainPositioner().margin(4, 4, 4, 0);
         user = new TextFieldWidget(textRenderer, 208, 20, Text.translatable("owo.caramell.userfield"));
         password = new TextFieldWidget(textRenderer, 208, 20, Text.translatable("owo.caramell.passfield"));
+//        adder.add(new TextWidget(Text.translatable("owo.caramell.acc.warning1"), client.textRenderer).alignCenter(),2);
+//        adder.add(new TextWidget(Text.translatable("owo.caramell.acc.warning2"), client.textRenderer).alignCenter(),4);
         adder.add(new TextWidget(Text.translatable("owo.caramell.userfieldtext"), textRenderer), adder.copyPositioner().marginTop(10));
         adder.add(user);
         adder.add(new TextWidget(Text.translatable("owo.caramell.passfieldtext"), textRenderer), adder.copyPositioner().marginTop(10));
         adder.add(password);
         adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.loginbutton"), button -> {
-            DevyMainClient.instance.accountManager.login(user.getText(), password.getText());
+            if(DevyMainClient.instance.accountManager.login(user.getText(), password.getText())){
+                DevyMainClient.logger.info("Logged in!");
+            }
         }).width(106).build());
         adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.registerbutton"), button -> {
-            DevyMainClient.instance.accountManager.register(user.getText(), password.getText());
+            if(DevyMainClient.instance.accountManager.register(user.getText(), password.getText())){
+                DevyMainClient.logger.info("Registered!");
+            }
         }).width(106).build());
         adder.add(ButtonWidget.builder(Text.translatable("owo.caramell.genericback"), button -> {
             this.close();
@@ -40,6 +47,13 @@ public class AccountScreen extends Screen {
         SimplePositioningWidget.setPos(gridWidget, 0, 0, this.width, this.height, 0.5f, 0.4f);
         gridWidget.forEachChild(this::addDrawableChild);
         super.init();
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("owo.caramell.acc.warning1"),client.currentScreen.width/2,textRenderer.fontHeight,-1);
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("owo.caramell.acc.warning2"),client.currentScreen.width/2,textRenderer.fontHeight*2,-1);
+        super.render(context, mouseX, mouseY, deltaTicks);
     }
 
     @Override

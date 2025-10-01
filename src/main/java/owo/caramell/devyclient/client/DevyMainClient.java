@@ -18,6 +18,7 @@ import owo.caramell.devyclient.DevyClient;
 import owo.caramell.devyclient.HUD.Loader.HUDManager;
 import owo.caramell.devyclient.Configs.Settings;
 import owo.caramell.devyclient.client.NotifsAPI.Notification;
+import owo.caramell.devyclient.client.account.Account;
 import owo.caramell.devyclient.client.account.AccountManager;
 
 public class DevyMainClient implements ClientModInitializer {
@@ -39,6 +40,7 @@ public class DevyMainClient implements ClientModInitializer {
     public boolean discordRPCFailed = false;
     public boolean isDALoggedIn = false;
     public Notification notifAPI;
+    public Account account;
     // Controls
     private static KeyBinding fullbright;
     // Debug
@@ -87,7 +89,10 @@ public class DevyMainClient implements ClientModInitializer {
             }
         });
     }
-
+    public void initCRMLAccount(String token){
+        DevyMainClient.logger.info("Logging in...");
+        account = new Account(token);
+    }
     public void loadSettings(){
         DevyMainClient.instance.sBarColors.fixValues();
         DevyMainClient.instance.settings.loadAll();
